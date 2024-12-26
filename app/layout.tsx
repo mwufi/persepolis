@@ -26,7 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <style>
-          @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600&family=Gugi&display=swap');
+          @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400&family=Gugi&display=swap');
         </style>
 
       </head>
