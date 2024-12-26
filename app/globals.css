@@ -3,21 +3,16 @@
 @tailwind utilities;
 
 :root {
-  /* Colors inspired by ancient Persian art and architecture - Dark Mode */
-  --primary: hsl(43 65% 52%);     /* Rich Persian gold */
-  --secondary: hsl(90 34% 48%);   /* Muted sage */
-  --accent: hsl(10 60% 49%);      /* Warm terracotta */
-  --accent-light: hsl(10, 84%, 34%); /* Lighter terracotta */
-  --text: hsl(33 25% 85%);        /* Warm off-white */
-  --text-secondary: hsl(33 25% 65%); /* Muted stone */
-  --background: hsl(20 12% 9%);    /* Deep umber background */
-  --background-alt: hsl(20 12% 14%); /* Slightly lighter background */
-  --highlight: hsl(20 12% 15%);    /* Subtle highlight */
+  --text: hsl(0 0% 9%);
+  --text-secondary: hsl(0 0% 40%);
+  --background: hsl(0 0% 100%);
+  --accent: hsl(212 100% 48%);
+  --accent-light: hsl(212 100% 94%);
 }
 
 @layer base {
   html {
-    font-size: 18px;
+    font-size: 17px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -25,183 +20,197 @@
   body {
     background-color: var(--background);
     color: var(--text);
-    font-family: 'Crimson Text', Georgia, serif;
-    line-height: 1.6;
-    text-rendering: optimizeLegibility;
-    font-feature-settings: "kern" 1, "liga" 1;
+    font-family: "Noto Serif JP", serif;
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+    font-weight: 300;
   }
 
-  /* Headings with classical elegance */
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Cinzel', Georgia, serif;
-    color: var(--primary);
-    font-weight: 500;
+  /* Modern heading hierarchy */
+  h1, h2, h4 {
+    font-family: "Gugi", system-ui, sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
     line-height: 1.2;
-    margin: 1.75rem 0 1rem;
-    letter-spacing: 0.02em;
   }
 
   h1 {
     font-size: 2.5rem;
-    border-bottom: 2px solid var(--primary);
-    padding-bottom: 0.5rem;
-    margin-bottom: 1.5rem;
+    margin: 2.5rem 0 1.5rem;
   }
 
   h2 {
-    font-size: 2rem;
-    color: var(--secondary);
+    font-size: 1.75rem;
+    margin: 2rem 0 1.25rem;
+    color: var(--text);
   }
 
-  h3 { font-size: 1.75rem; }
-  h4 { font-size: 1.5rem; }
+  h3 {
+    font-family: "Gugi", system-ui, sans-serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 1.75rem 0 1rem;
+    color: var(--text-secondary);
+  }
 
   /* Refined paragraph styling */
   p {
     margin-bottom: 0.8rem;
-    hyphens: auto;
+    font-size: 1.05rem;
   }
 
   p + ul,
   p + ol {
-    margin-top: -0.4rem;
+    margin-top: -0.2rem;
+  }
+
+  /* Artistic link styling */
+  a {
+    color: var(--accent);
+    text-decoration: none;
+    position: relative;
+    font-weight: 400;
+    padding: 0.1em 0;
+  }
+
+  a::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s ease;
+  }
+
+  a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
   /* Sophisticated lists */
   ul, ol {
     margin: 0.8rem 0;
-    padding-left: 1.5rem;
+    padding-left: 1.25rem;
   }
 
   li {
     margin-bottom: 0.4rem;
     position: relative;
+    padding-left: 0.25rem;
+    font-size: 1.05rem;
   }
 
   li:last-child {
     margin-bottom: 0;
   }
 
-  ul li::before {
-    content: "•";
-    color: var(--primary);
-    font-size: 1.2em;
-    position: absolute;
-    left: -1.2rem;
+  ul {
+    list-style: none;
   }
 
-  /* Blockquotes with style */
+  ul li::before {
+    content: "•";
+    color: var(--accent);
+    position: absolute;
+    left: -1rem;
+    top: -0.1em;
+    font-size: 1.2em;
+  }
+
+  ol {
+    list-style-type: decimal;
+  }
+
+  ol li {
+    padding-left: 0.5rem;
+  }
+
+  ol li::marker {
+    color: var(--accent);
+    font-family: "Gugi", system-ui, sans-serif;
+  }
+
+  /* Style nested lists */
+  ul ul, ol ol, ul ol, ol ul {
+    margin: 0.4rem 0 0.4rem 0.5rem;
+  }
+
+  li > ul, li > ol {
+    margin-top: 0.4rem;
+  }
+
+  /* Simple blockquotes */
   blockquote {
-    margin: 1.5rem 0;
-    padding: 1.2rem 1.5rem;
-    background: var(--highlight);
-    border-left: 4px solid var(--primary);
+    margin: 2rem 0;
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--text-secondary);
     font-style: italic;
-    font-size: 1.1rem;
-    line-height: 1.6;
+    color: var(--text-secondary);
+    font-weight: 200;
+    line-height: 1.8;
   }
 
   blockquote p:last-child {
     margin-bottom: 0;
   }
 
-  /* Code blocks */
+  /* Clean code blocks */
   pre, code {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: var(--font-geist-mono);
     font-size: 0.9rem;
-    background: var(--background-alt);
+    background: hsl(0 0% 97%);
     padding: 0.2em 0.4em;
-    border-radius: 3px;
+    border-radius: 4px;
   }
 
   pre {
     padding: 1rem;
     overflow-x: auto;
-    margin: 1.2rem 0;
+    margin: 1.5rem 0;
   }
 
-  /* Beautiful link styling */
-  a {
-    color: var(--accent);
-    text-decoration: none;
-    position: relative;
-    padding: 0 0.1em;
-    transition: color 0.2s ease;
-  }
-
-  a::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: var(--accent);
-    opacity: 0.1;
-    transform: scaleY(0);
-    transform-origin: bottom;
-    transition: transform 0.2s ease;
-    z-index: -1;
-  }
-
-  a:hover {
-    color: var(--accent);
-  }
-
-  a:hover::before {
-    transform: scaleY(1);
-  }
-
-  /* Selection styling */
+  /* Subtle selection */
   ::selection {
+    background: var(--accent-light);
     color: var(--accent);
   }
 
-  ::-moz-selection {
-    color: var(--accent);
-  }
-
-  /* Horizontal rule */
+  /* Refined horizontal rule */
   hr {
     border: 0;
     height: 1px;
-    background: var(--primary);
-    margin: 2rem auto;
-    width: 80%;
-    opacity: 0.3;
+    background: hsl(0 0% 90%);
+    margin: 3rem auto;
+    width: 100%;
   }
 
-  /* Tables */
+  /* Clean tables */
   table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1.5rem 0;
-  }
-
-  th, td {
-    padding: 0.75rem;
-    border-bottom: 1px solid var(--highlight);
-    text-align: left;
+    margin: 2rem 0;
+    font-size: 0.95rem;
   }
 
   th {
-    font-family: 'Cinzel', Georgia, serif;
+    font-family: "Gugi", system-ui, sans-serif;
+    text-align: left;
+    padding: 0.75rem;
+    border-bottom: 1px solid hsl(0 0% 90%);
+  }
+
+  td {
+    padding: 0.75rem;
+    border-bottom: 1px solid hsl(0 0% 90%);
+  }
+
+  /* Strong emphasis */
+  strong {
     font-weight: 500;
-    color: var(--primary);
-  }
-
-  /* Images */
-  img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 4px;
-    margin: 1.5rem 0;
-  }
-
-  /* Article spacing */
-  article {
-    max-width: 65ch;
-    margin: 0 auto;
-    padding: 1.5rem 1rem;
   }
 }
