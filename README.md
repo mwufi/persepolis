@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Persepolis - Your Markdown-Powered NextJS Starter Kit
 
-## Getting Started
+Write your entire website in Markdown, because life's too short for complex code! ✨
 
-First, run the development server:
+## What's This All About?
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Tired of wrestling with complex website builders? Say hello to Persepolis - where your content flows as smoothly as your coffee ☕️. Just write in Markdown, and watch your website come alive!
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 📝 Write everything in Markdown/MDX
+- 🎨 Beautiful, minimal design out of the box
+- 🚀 Built on NextJS for blazing fast performance
+- 📱 Fully responsive and mobile-friendly
+- 🎉 Zero configuration needed
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🚀 Getting Started
 
-## Learn More
+1. Clone this repo
+2. Run `npm install`
+3. Start writing in Markdown!
+4. Run `npm run dev` to see the magic
 
-To learn more about Next.js, take a look at the following resources:
+## 📝 How It Works
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Drop your Markdown files in the `content` directory, and Persepolis takes care of the rest. It's that simple!
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 💪 Built With
 
-## Deploy on Vercel
+- NextJS
+- MDX
+- TailwindCSS
+- Love ❤️
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📜 License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT - Because sharing is caring! 
+
+---
+Made with ❤️ for Markdown lovers
