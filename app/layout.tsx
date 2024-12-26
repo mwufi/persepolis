@@ -25,18 +25,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <style>
-          @import url('https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;1,200;1,300;1,400&family=Gugi&display=swap');
-        </style>
 
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-10">
-          <div className="max-w-[75ch]">
-            {children}
-          </div>
+        <div className="max-w-[65ch] mx-auto px-4 sm:px-6 lg:px-8 pb-10">
+          {children}
         </div>
       </body>
     </html>
