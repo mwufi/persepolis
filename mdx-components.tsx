@@ -15,6 +15,9 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
         img: (props) => (
             <Image
                 sizes="100vw"
+                width={300}
+                height={300}
+                className="rounded-lg overflow-hidden"
                 style={{ width: '100%', height: 'auto' }}
                 {...(props as ImageProps)}
             />

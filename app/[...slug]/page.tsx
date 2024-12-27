@@ -1,5 +1,6 @@
 import { readdirSync, statSync } from 'fs'
 import path from 'path';
+import { Breadcrumb } from '../components/Breadcrumb';
 
 export default async function Page({
   params,
@@ -9,7 +10,12 @@ export default async function Page({
   const slug = (await params).slug
   const { default: Post } = await import(`@/markdown/${slug.join('/')}.mdx`)
 
-  return <Post />
+  return (
+    <div className="mt-10">
+      <Breadcrumb slug={slug} />
+      <Post />
+    </div>
+  )
 }
 
 export function generateStaticParams() {
