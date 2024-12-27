@@ -1,44 +1,92 @@
-import { readdirSync, statSync } from 'fs'
+import { readdirSync, statSync, existsSync } from 'fs'
 import path from 'path';
 import { Breadcrumb } from '../components/Breadcrumb';
+
+interface DirectoryEntry {
+  name: string;
+  path: string;
+  isDirectory: boolean;
+}
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ slug: string[] }>
+  params: { slug: string[] }
 }) {
-  const slug = (await params).slug
-  const { default: Post } = await import(`@/markdown/${slug.join('/')}.mdx`)
+  const slug = params.slug
+  const markdownDir = path.join(process.cwd(), 'markdown')
+  const fullPath = path.join(markdownDir, ...slug)
+  const mdxPath = `${fullPath}.mdx`
 
-  return (
-    <div className="mt-10">
-      <Breadcrumb slug={slug} />
-      <Post />
-    </div>
-  )
+  // Check if MDX file exists
+  if (existsSync(mdxPath)) {
+    const { default: Post } = await import(`@/markdown/${slug.join('/')}.mdx`)
+    return (
+      <div className="mt-10">
+        <Breadcrumb slug={slug} />
+        <Post />
+      </div>
+    )
+  }
+
+  // Check if directory exists
+  if (existsSync(fullPath) && statSync(fullPath).isDirectory()) {
+    const entries = readdirSync(fullPath)
+    const directoryContents: DirectoryEntry[] = entries.map(entry => {
+      const entryPath = path.join(fullPath, entry)
+      const isDirectory = statSync(entryPath).isDirectory()
+      const name = isDirectory ? entry : entry.replace(/\.mdx$/, '')
+      const relativePath = [...slug, name].join('/')
+      return {
+        name,
+        path: relativePath,
+        isDirectory
+      }
+    })
+
+    return (
+      <div className="mt-10">
+        <Breadcrumb slug={slug} />
+        <h1 className="text-3xl font-bold mb-6">{slug[slug.length - 1]}</h1>
+        <div className="grid gap-4">
+          {directoryContents.map((entry) => (
+            <a
+              key={entry.path}
+              href={`/${entry.path}`}
+              className="p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              <div className="flex items-center gap-2">
+                {entry.isDirectory ? '📁' : '📄'} {entry.name}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  throw new Error(`No content found for path: ${slug.join('/')}`)
 }
 
 export function generateStaticParams() {
-  /* recursively read all markdown files in the markdown directory 
-  
-  returns [
-    { slug: ['index'] },
-    { slug: ['about', 'index'] },
-    { slug: ['about', 'example'] },
-  ]
-  */
   const markdownDir = path.join(process.cwd(), 'markdown')
 
-  function getMarkdownPaths(dir: string, basePath: string = ''): string[][] {
+  function getAllPaths(dir: string, basePath: string = ''): string[][] {
     const entries = readdirSync(dir)
     const paths: string[][] = []
+
+    // Add the directory path itself
+    if (basePath) {
+      paths.push(basePath.split(path.sep))
+    }
 
     for (const entry of entries) {
       const fullPath = path.join(dir, entry)
       const relativePath = path.join(basePath, entry)
 
       if (statSync(fullPath).isDirectory()) {
-        paths.push(...getMarkdownPaths(fullPath, relativePath))
+        // Add directory path and all its contents
+        paths.push(...getAllPaths(fullPath, relativePath))
       } else if (entry.endsWith('.mdx')) {
         // Remove the .mdx extension and split the path into segments
         const slug = relativePath.replace(/\.mdx$/, '').split(path.sep)
@@ -49,8 +97,9 @@ export function generateStaticParams() {
     return paths
   }
 
-  const slugs = getMarkdownPaths(markdownDir)
-  return slugs.map(slug => ({ slug }))
+  const paths = getAllPaths(markdownDir)
+  return paths.map(slug => ({ slug }))
 }
 
-export const dynamicParams = false
+// Allow dynamic paths in development for easier testing
+export const dynamicParams = process.env.NODE_ENV === 'development'
