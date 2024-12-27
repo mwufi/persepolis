@@ -8,12 +8,12 @@ interface DirectoryEntry {
   isDirectory: boolean;
 }
 
-export default async function Page({
-  params,
-}: {
-  params: { slug: string[] }
-}) {
-  const slug = params.slug
+interface BBProps {
+  params: Promise<{ slug: string[] }>
+}
+
+export default async function Page({ params }: BBProps) {
+  const { slug } = await params
   const markdownDir = path.join(process.cwd(), 'markdown')
   const fullPath = path.join(markdownDir, ...slug)
   const mdxPath = `${fullPath}.mdx`
@@ -68,7 +68,7 @@ export default async function Page({
   throw new Error(`No content found for path: ${slug.join('/')}`)
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   const markdownDir = path.join(process.cwd(), 'markdown')
 
   function getAllPaths(dir: string, basePath: string = ''): string[][] {
@@ -98,8 +98,8 @@ export function generateStaticParams() {
   }
 
   const paths = getAllPaths(markdownDir)
-  return paths.map(slug => ({ slug }))
+  return Promise.resolve(paths.map(slug => ({ slug })))
 }
 
 // Allow dynamic paths in development for easier testing
-export const dynamicParams = process.env.NODE_ENV === 'development'
+export const dynamicParams = true
