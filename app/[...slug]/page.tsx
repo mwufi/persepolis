@@ -6,6 +6,7 @@ interface DirectoryEntry {
   name: string;
   path: string;
   isDirectory: boolean;
+  modifiedAt: Date;
 }
 
 interface BBProps {
@@ -34,15 +35,20 @@ export default async function Page({ params }: BBProps) {
     const entries = readdirSync(fullPath)
     const directoryContents: DirectoryEntry[] = entries.map(entry => {
       const entryPath = path.join(fullPath, entry)
-      const isDirectory = statSync(entryPath).isDirectory()
+      const stats = statSync(entryPath)
+      const isDirectory = stats.isDirectory()
       const name = isDirectory ? entry : entry.replace(/\.mdx$/, '')
       const relativePath = [...slug, name].join('/')
       return {
         name,
         path: relativePath,
-        isDirectory
+        isDirectory,
+        modifiedAt: stats.mtime
       }
     })
+    
+    // Sort by modification date, newest first
+    directoryContents.sort((a, b) => b.modifiedAt.getTime() - a.modifiedAt.getTime())
 
     return (
       <div className="mt-10">
@@ -57,10 +63,17 @@ export default async function Page({ params }: BBProps) {
             >
               <div className="flex items-center gap-2">
                 {entry.isDirectory ? '📁' : '📄'} {entry.name}
+                <span className="text-sm text-gray-500 ml-auto">
+                  {entry.modifiedAt.toLocaleDateString()}
+                </span>
               </div>
             </a>
           ))}
         </div>
+        <div className="mt-10 text-sm text-gray-500 italic">
+          Views like this are <span className="font-semibold">collection views</span>, which are automatically generated from a folder!
+        </div>
+        
       </div>
     )
   }
