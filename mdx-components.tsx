@@ -22,6 +22,18 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
                 {...(props as ImageProps)}
             />
         ),
+        a: ({ children, href, ...props }) => {
+            const isExternal = href?.startsWith('http');
+            return (
+                <a
+                    href={href}
+                    {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    {...props}
+                >
+                    {children}
+                </a>
+            );
+        },
         ...components,
     }
 }
