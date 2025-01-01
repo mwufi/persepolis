@@ -17,7 +17,7 @@ export class ImageErrorBoundary extends Component<Props, State> {
     this.state = { hasError: false }
   }
 
-  static getDerivedStateFromError(error: Error) {
+  static getDerivedStateFromError(_error: Error) {
     return { hasError: true }
   }
 

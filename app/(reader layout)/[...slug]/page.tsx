@@ -12,9 +12,65 @@ import {
 } from './utils'
 import Link from 'next/link';
 import { PostMeta } from './PostMeta';
+import { Metadata } from 'next'
+import { getSiteConfig, getFullUrl } from '../../../lib/config'
 
 interface BBProps {
   params: Promise<{ slug: string[] }>
+}
+
+export async function generateMetadata({ params }: { params: { slug: string[] } }): Promise<Metadata> {
+  const fullPath = getFullPath(params.slug)
+  const mdxPath = getMdxPath(fullPath)
+
+  if (!checkMdxExists(mdxPath)) {
+    return {}
+  }
+
+  const [mdxData, siteConfig] = await Promise.all([
+    getMdxContent(params.slug),
+    getSiteConfig()
+  ])
+
+  if (!mdxData?.frontMatter) {
+    return {}
+  }
+
+  const { title, headerImg, date } = mdxData.frontMatter
+  const description = mdxData.mdxContent
+    .split('\n')
+    .find(line => line.trim() && !line.startsWith('#'))
+    ?.slice(0, 200) + '...'
+
+  const canonicalUrl = getFullUrl(`/${params.slug.join('/')}`)
+  const imageUrl = headerImg ? (
+    headerImg.startsWith('http') ? headerImg : getFullUrl(`/${headerImg}`)
+  ) : undefined
+
+  return {
+    title: title ? `${title} | ${siteConfig.name}` : siteConfig.name,
+    description,
+    openGraph: {
+      title: title,
+      description,
+      type: 'article',
+      publishedTime: date,
+      url: canonicalUrl,
+      siteName: siteConfig.name,
+      images: imageUrl ? [
+        {
+          url: imageUrl,
+          alt: title,
+        }
+      ] : undefined,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: imageUrl ? [imageUrl] : undefined,
+    },
+  }
 }
 
 export default async function Page({ params }: BBProps) {

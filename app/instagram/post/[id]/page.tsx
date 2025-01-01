@@ -7,14 +7,7 @@ import PostHeader from '@/components/PostHeader';
 import PostActions from '@/components/PostActions';
 import CommentsDisplay from '@/components/CommentsDisplay';
 
-export default function PostPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params);
-  const initialPost = getPostData(id);
-  
-  if (!initialPost) {
-    return <div>Post not found</div>;
-  }
-
+function PostContent({ initialPost }: { initialPost: ReturnType<typeof getPostData> }) {
   const [post, setPost] = useState(initialPost);
 
   const handleLike = (isLiked: boolean) => {
@@ -75,4 +68,15 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
       </div>
     </div>
   );
+}
+
+export default function PostPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
+  const initialPost = getPostData(id);
+  
+  if (!initialPost) {
+    return <div>Post not found</div>;
+  }
+
+  return <PostContent initialPost={initialPost} />;
 }
