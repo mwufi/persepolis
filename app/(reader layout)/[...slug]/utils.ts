@@ -1,4 +1,4 @@
-import { readdirSync, statSync, existsSync } from 'fs'
+import { readdirSync, statSync, existsSync, readFileSync } from 'fs'
 import path from 'path'
 import matter from 'gray-matter'
 
@@ -82,8 +82,7 @@ export async function getMdxContent(slug: string[]) {
   const mdxPath = getMdxPath(fullPath)
   
   if (checkMdxExists(mdxPath)) {
-    const fs = require('fs')
-    const rawContent = fs.readFileSync(mdxPath, 'utf-8')
+    const rawContent = readFileSync(mdxPath, 'utf-8')
     return parseMdxFile(rawContent)
   }
   return null

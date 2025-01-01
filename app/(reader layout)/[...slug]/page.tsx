@@ -1,16 +1,17 @@
 import { Breadcrumb } from '../../../components/Breadcrumb';
 import { notFound } from 'next/navigation'
 import {
-  DirectoryEntry,
   getMarkdownDir,
   getFullPath,
   getMdxPath,
   checkMdxExists,
   checkDirectoryExists,
   getDirectoryContents,
-  getAllPaths
+  getAllPaths,
+  getMdxContent
 } from './utils'
 import Link from 'next/link';
+import { PostMeta } from './PostMeta';
 
 interface BBProps {
   params: Promise<{ slug: string[] }>
@@ -23,10 +24,16 @@ export default async function Page({ params }: BBProps) {
 
   // Check if MDX file exists
   if (checkMdxExists(mdxPath)) {
-    const { default: Post } = await import(`@/markdown/${slug.join('/')}.mdx`)
+    const [mdxData, { default: Post }] = await Promise.all([
+      getMdxContent(slug),
+      import(`@/markdown/${slug.join('/')}.mdx`)
+    ])
+    if (!mdxData) return notFound()
+
     return (
       <div className="mt-10">
         <Breadcrumb slug={slug} />
+        {mdxData.frontMatter && <PostMeta frontMatter={mdxData.frontMatter} />}
         <Post />
       </div>
     )
