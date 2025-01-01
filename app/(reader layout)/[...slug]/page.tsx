@@ -1,6 +1,6 @@
 import { readdirSync, statSync, existsSync } from 'fs'
 import path from 'path';
-import { Breadcrumb } from '../components/Breadcrumb';
+import { Breadcrumb } from '../../../components/Breadcrumb';
 
 interface DirectoryEntry {
   name: string;
@@ -46,7 +46,7 @@ export default async function Page({ params }: BBProps) {
         modifiedAt: stats.mtime
       }
     })
-    
+
     // Sort by modification date, newest first
     directoryContents.sort((a, b) => b.modifiedAt.getTime() - a.modifiedAt.getTime())
 
@@ -73,7 +73,7 @@ export default async function Page({ params }: BBProps) {
         <div className="mt-10 text-sm text-gray-500 italic">
           Views like this are <span className="font-semibold">collection views</span>, which are automatically generated from a folder!
         </div>
-        
+
       </div>
     )
   }

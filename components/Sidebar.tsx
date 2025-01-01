@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { 
+import { clsx } from 'clsx';
+import {
   Home,
   Search,
   Compass,
@@ -8,11 +9,14 @@ import {
   Heart,
   PlusCircle,
   User,
-  Menu,
-  Instagram
+  Menu
 } from 'lucide-react';
 
-const Sidebar = () => {
+interface SidebarProps {
+  position?: 'left' | 'right';
+}
+
+const Sidebar = ({ position = 'left' }: SidebarProps) => {
   const menuItems = [
     { name: 'Home', href: '/', icon: Home },
     { name: 'Search', href: '#', icon: Search },
@@ -25,37 +29,60 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="group fixed left-0 h-full w-16 hover:w-64 bg-white border-r border-gray-200 transition-all duration-300 ease-in-out overflow-hidden">
+    <div
+      className={clsx(
+        "group fixed h-full w-16 hover:w-64 bg-white border-gray-200 transition-all duration-300 ease-in-out overflow-hidden",
+        position === 'left' ? 'left-0 border-r' : 'right-0 border-l'
+      )}
+    >
       <div className="flex h-full flex-col justify-between p-3">
         <div className="space-y-1">
-          <div className="flex items-center mb-4 px-2 py-3">
-            <Instagram className="h-6 w-6 flex-shrink-0" />
-            <span className="ml-4 text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className={clsx(
+            "flex items-center mb-4 px-2 py-3",
+            position === 'right' && 'flex-row-reverse'
+          )}>
+            {/* can insert icon here */}
+            <span className={clsx(
+              "text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300",
+              position === 'left' ? 'ml-4' : 'mr-4'
+            )}>
               Instagram
             </span>
           </div>
-          
+
           {menuItems.map((item) => (
             <Link
               key={item.name}
               href={item.href}
-              className="flex items-center px-2 py-3 rounded-lg hover:bg-gray-100 no-artistic-style"
+              className={clsx(
+                "flex items-center px-2 py-3 rounded-lg hover:bg-gray-100 no-artistic-style",
+                position === 'right' && 'flex-row-reverse'
+              )}
             >
               <item.icon className="h-6 w-6 flex-shrink-0" />
-              <span className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+              <span className={clsx(
+                "opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap",
+                position === 'left' ? 'ml-4' : 'mr-4'
+              )}>
                 {item.name}
               </span>
             </Link>
           ))}
         </div>
-        
+
         <div>
           <Link
             href="#"
-            className="flex items-center px-2 py-3 rounded-lg hover:bg-gray-100 no-artistic-style"
+            className={clsx(
+              "flex items-center px-2 py-3 rounded-lg hover:bg-gray-100 no-artistic-style",
+              position === 'right' && 'flex-row-reverse'
+            )}
           >
             <Menu className="h-6 w-6 flex-shrink-0" />
-            <span className="ml-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+            <span className={clsx(
+              "opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap",
+              position === 'left' ? 'ml-4' : 'mr-4'
+            )}>
               More
             </span>
           </Link>
