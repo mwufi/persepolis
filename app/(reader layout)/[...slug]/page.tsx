@@ -1,6 +1,7 @@
 import { readdirSync, statSync, existsSync } from 'fs'
 import path from 'path';
 import { Breadcrumb } from '../../../components/Breadcrumb';
+import { notFound } from 'next/navigation'
 
 interface DirectoryEntry {
   name: string;
@@ -78,7 +79,7 @@ export default async function Page({ params }: BBProps) {
     )
   }
 
-  throw new Error(`No content found for path: ${slug.join('/')}`)
+  notFound() // This will show your 404 page
 }
 
 export async function generateStaticParams() {
