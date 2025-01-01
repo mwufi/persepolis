@@ -50,6 +50,11 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
   return {
     title: title ? `${title} | ${siteConfig.name}` : siteConfig.name,
     description,
+    alternates: {
+      types: {
+        'application/json+oembed': `${getFullUrl('/api/oembed')}?url=${encodeURIComponent(canonicalUrl)}`,
+      },
+    },
     openGraph: {
       title: title,
       description,
