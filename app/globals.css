@@ -62,7 +62,7 @@
   }
 
   /* Artistic link styling */
-  a {
+  a:not(.no-artistic-style) {
     color: var(--accent);
     text-decoration: none;
     position: relative;
@@ -76,7 +76,7 @@
     transition: background-size 0.2s ease-in-out, color 0.1s ease-in-out;
   }
 
-  a:hover {
+  a:not(.no-artistic-style):hover {
     background-size: 100% 100%;
   }
 
