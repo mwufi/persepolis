@@ -39,7 +39,7 @@ const Comments = ({ comments: initialComments, caption, username, timestamp }: C
     <div className="px-4 space-y-4">
       {caption && (
         <p className="text-sm">
-          <Link href={`/${username}`} className="font-semibold no-artistic-style">
+          <Link href={`/u/${username}`} className="font-semibold no-artistic-style">
             {username}
           </Link>{' '}
           {caption}
@@ -49,7 +49,7 @@ const Comments = ({ comments: initialComments, caption, username, timestamp }: C
       {comments.map((comment, index) => (
         <div key={index} className="flex justify-between items-start">
           <p className="text-sm flex-1">
-            <Link href={`/${comment.username}`} className="font-semibold no-artistic-style">
+            <Link href={`/u/${comment.username}`} className="font-semibold no-artistic-style">
               {comment.username}
             </Link>{' '}
             {comment.content}

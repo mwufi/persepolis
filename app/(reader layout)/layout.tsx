@@ -31,7 +31,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
       >
-        <div className="max-w-[65ch] mx-auto px-4 sm:px-6 lg:px-8 pb-10 min-h-screen flex flex-col">
+        <div className="reader max-w-[65ch] mx-auto px-4 sm:px-6 lg:px-8 pb-10 min-h-screen flex flex-col">
           <div className="flex-grow">
             {children}
           </div>

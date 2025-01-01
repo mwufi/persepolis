@@ -31,7 +31,7 @@ const Sidebar = ({ position = 'left' }: SidebarProps) => {
   return (
     <div
       className={clsx(
-        "group fixed h-full w-16 hover:w-64 bg-white border-gray-200 transition-all duration-300 ease-in-out overflow-hidden",
+        "group fixed h-full w-16 hover:w-64 bg-white border-gray-200 transition-all duration-300 ease-in-out overflow-hidden z-50",
         position === 'left' ? 'left-0 border-r' : 'right-0 border-l'
       )}
     >

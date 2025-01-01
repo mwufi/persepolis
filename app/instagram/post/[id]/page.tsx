@@ -10,7 +10,7 @@ import { useState, use } from 'react';
 const getPostData = (id: string) => ({
   id,
   username: 'almostzenbut_no',
-  userImage: '/profile.jpg',
+  userImage: '/0_0.webp',
   image: id === '1' ? '/stable.png' : '/sundial.png',
   caption: 'This is a sample caption for the post. #awesome #coding',
   likes: 42,

@@ -19,7 +19,10 @@ const PostHeader = ({ username, userImage, location }: PostHeaderProps) => {
           )}
         </div>
         <div className="ml-3">
-          <Link href={`/${username}`} className="font-semibold text-sm no-artistic-style">
+          <Link
+            href={`/u/${username}`}
+            className="flex items-center hover:opacity-90 transition-opacity font-semibold text-sm no-artistic-style"
+          >
             {username}
           </Link>
           {location && (
