@@ -7,6 +7,7 @@ interface SquareImagePreviewProps {
   alt: string;
   href: string;
   className?: string;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
 const SquareImagePreview = ({
@@ -14,6 +15,7 @@ const SquareImagePreview = ({
   alt,
   href,
   className,
+  onClick,
 }: SquareImagePreviewProps) => {
   return (
     <Link
@@ -22,6 +24,7 @@ const SquareImagePreview = ({
         "block relative aspect-square w-full overflow-hidden rounded-sm",
         className
       )}
+      onClick={onClick}
     >
       <div className="group relative h-full w-full">
         <Image

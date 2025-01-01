@@ -1,43 +1,20 @@
 'use client'
 
 import Image from 'next/image';
+import { useState, use } from 'react';
+import { getPostData } from '@/lib/posts';
 import PostHeader from '@/components/PostHeader';
 import PostActions from '@/components/PostActions';
-import Comments from '@/components/Comments';
-import { useState, use } from 'react';
-
-// This would normally come from an API or database
-const getPostData = (id: string) => ({
-  id,
-  username: 'almostzenbut_no',
-  userImage: '/0_0.webp',
-  image: id === '1' ? '/stable.png' : '/sundial.png',
-  caption: 'This is a sample caption for the post. #awesome #coding',
-  likes: 42,
-  isLiked: false,
-  isSaved: false,
-  timestamp: 'December 31, 2023',
-  comments: [
-    {
-      username: 'user1',
-      content: 'This is amazing! 🔥',
-      timestamp: '2h',
-      likes: 2,
-      userLiked: true,
-    },
-    {
-      username: 'user2',
-      content: 'Great work! 👏',
-      timestamp: '1h',
-      likes: 1,
-      userLiked: false,
-    },
-  ],
-});
+import CommentsDisplay from '@/components/CommentsDisplay';
 
 export default function PostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const initialPost = getPostData(id);
+  
+  if (!initialPost) {
+    return <div>Post not found</div>;
+  }
+
   const [post, setPost] = useState(initialPost);
 
   const handleLike = (isLiked: boolean) => {
@@ -48,57 +25,44 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
     }));
   };
 
-  const handleSave = () => {
+  const handleSave = (isSaved: boolean) => {
     setPost(prev => ({
       ...prev,
-      isSaved: !prev.isSaved
+      isSaved
     }));
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="h-screen lg:h-[calc(100vh-8rem)] lg:max-w-7xl lg:mx-auto lg:my-8">
-        <div className="h-full bg-white lg:rounded-lg lg:shadow-sm lg:overflow-hidden">
-          <div className="h-full lg:grid lg:grid-cols-[1fr,400px]">
-            {/* Post Header - Mobile Only */}
-            <div className="lg:hidden">
-              <PostHeader
-                username={post.username}
-                userImage={post.userImage}
-              />
+    <div className="max-w-4xl mx-auto">
+      <div className="bg-white">
+        <div className="flex flex-col md:flex-row">
+          {/* Left side - Image */}
+          <div className="relative flex-1 aspect-square md:aspect-auto">
+            <Image
+              src={post.image}
+              alt={`Post by ${post.username}`}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+
+          {/* Right side - Comments */}
+          <div className="w-full md:w-[350px] flex flex-col">
+            <div className="p-4 border-b">
+              <PostHeader username={post.username} userImage={post.userImage} />
             </div>
 
-            {/* Image Section */}
-            <div className="relative aspect-square lg:aspect-auto lg:h-full">
-              <Image
-                src={post.image}
-                alt={`Post by ${post.username}`}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-
-            {/* Comments Section */}
-            <div className="lg:flex lg:flex-col lg:h-full">
-              {/* Post Header - Desktop Only */}
-              <div className="hidden lg:block border-b">
-                <PostHeader
-                  username={post.username}
-                  userImage={post.userImage}
-                />
-              </div>
-
-              {/* Actions and Comments */}
-              <div className="flex flex-col flex-1 lg:overflow-y-auto">
+            <div className="flex-1 overflow-y-auto">
+              <div className="p-4">
                 <PostActions
-                  likes={post.likes}
                   isLiked={post.isLiked}
                   isSaved={post.isSaved}
+                  likes={post.likes}
                   onLike={handleLike}
                   onSave={handleSave}
                 />
-                <Comments
+                <CommentsDisplay
                   comments={post.comments}
                   caption={post.caption}
                   username={post.username}
