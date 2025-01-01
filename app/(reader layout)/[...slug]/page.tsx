@@ -1,14 +1,16 @@
-import { readdirSync, statSync, existsSync } from 'fs'
-import path from 'path';
 import { Breadcrumb } from '../../../components/Breadcrumb';
 import { notFound } from 'next/navigation'
-
-interface DirectoryEntry {
-  name: string;
-  path: string;
-  isDirectory: boolean;
-  modifiedAt: Date;
-}
+import {
+  DirectoryEntry,
+  getMarkdownDir,
+  getFullPath,
+  getMdxPath,
+  checkMdxExists,
+  checkDirectoryExists,
+  getDirectoryContents,
+  getAllPaths
+} from './utils'
+import Link from 'next/link';
 
 interface BBProps {
   params: Promise<{ slug: string[] }>
@@ -16,12 +18,11 @@ interface BBProps {
 
 export default async function Page({ params }: BBProps) {
   const { slug } = await params
-  const markdownDir = path.join(process.cwd(), 'markdown')
-  const fullPath = path.join(markdownDir, ...slug)
-  const mdxPath = `${fullPath}.mdx`
+  const fullPath = getFullPath(slug)
+  const mdxPath = getMdxPath(fullPath)
 
   // Check if MDX file exists
-  if (existsSync(mdxPath)) {
+  if (checkMdxExists(mdxPath)) {
     const { default: Post } = await import(`@/markdown/${slug.join('/')}.mdx`)
     return (
       <div className="mt-10">
@@ -32,21 +33,8 @@ export default async function Page({ params }: BBProps) {
   }
 
   // Check if directory exists
-  if (existsSync(fullPath) && statSync(fullPath).isDirectory()) {
-    const entries = readdirSync(fullPath)
-    const directoryContents: DirectoryEntry[] = entries.map(entry => {
-      const entryPath = path.join(fullPath, entry)
-      const stats = statSync(entryPath)
-      const isDirectory = stats.isDirectory()
-      const name = isDirectory ? entry : entry.replace(/\.mdx$/, '')
-      const relativePath = [...slug, name].join('/')
-      return {
-        name,
-        path: relativePath,
-        isDirectory,
-        modifiedAt: stats.mtime
-      }
-    })
+  if (checkDirectoryExists(fullPath)) {
+    const directoryContents = getDirectoryContents(fullPath, slug)
 
     // Sort by modification date, newest first
     directoryContents.sort((a, b) => b.modifiedAt.getTime() - a.modifiedAt.getTime())
@@ -57,10 +45,10 @@ export default async function Page({ params }: BBProps) {
         <h1 className="text-3xl font-bold mb-6">{slug[slug.length - 1]}</h1>
         <div className="grid gap-4">
           {directoryContents.map((entry) => (
-            <a
+            <Link
               key={entry.path}
               href={`/${entry.path}`}
-              className="p-4 border rounded-lg hover:bg-gray-50 transition-colors"
+              className="p-4 rounded-lg hover:bg-gray-50 transition-colors"
             >
               <div className="flex items-center gap-2">
                 {entry.isDirectory ? '📁' : '📄'} {entry.name}
@@ -68,13 +56,12 @@ export default async function Page({ params }: BBProps) {
                   {entry.modifiedAt.toLocaleDateString()}
                 </span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
         <div className="mt-10 text-sm text-gray-500 italic">
           Views like this are <span className="font-semibold">collection views</span>, which are automatically generated from a folder!
         </div>
-
       </div>
     )
   }
@@ -83,36 +70,8 @@ export default async function Page({ params }: BBProps) {
 }
 
 export async function generateStaticParams() {
-  const markdownDir = path.join(process.cwd(), 'markdown')
-
-  function getAllPaths(dir: string, basePath: string = ''): string[][] {
-    const entries = readdirSync(dir)
-    const paths: string[][] = []
-
-    // Add the directory path itself
-    if (basePath) {
-      paths.push(basePath.split(path.sep))
-    }
-
-    for (const entry of entries) {
-      const fullPath = path.join(dir, entry)
-      const relativePath = path.join(basePath, entry)
-
-      if (statSync(fullPath).isDirectory()) {
-        // Add directory path and all its contents
-        paths.push(...getAllPaths(fullPath, relativePath))
-      } else if (entry.endsWith('.mdx')) {
-        // Remove the .mdx extension and split the path into segments
-        const slug = relativePath.replace(/\.mdx$/, '').split(path.sep)
-        paths.push(slug)
-      }
-    }
-
-    return paths
-  }
-
-  const paths = getAllPaths(markdownDir)
-  return Promise.resolve(paths.map(slug => ({ slug })))
+  const markdownDir = getMarkdownDir()
+  return getAllPaths(markdownDir)
 }
 
 // Allow dynamic paths in development for easier testing
