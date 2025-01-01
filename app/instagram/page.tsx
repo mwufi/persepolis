@@ -1,5 +1,8 @@
+'use client'
+
 import Sidebar from '@/components/Sidebar';
 import ImageGrid from '@/components/ImageGrid';
+import { Suspense } from 'react';
 
 const sampleImages = [
     {
@@ -20,7 +23,9 @@ export default function InstagramPage() {
         <div className="flex min-h-screen bg-gray-50">
             <Sidebar position="left" />
             <main className="flex-1 ml-16 p-8">
-                <ImageGrid images={sampleImages} />
+                <Suspense fallback={<div>Loading...</div>}>
+                    <ImageGrid images={sampleImages} />
+                </Suspense>
             </main>
         </div>
     );

@@ -17,7 +17,6 @@ export default function Comments({ postId }: CommentsProps) {
 
   return (
     <CommentsDisplay
-      postId={postId}
       comments={post.comments}
       caption={post.caption}
       username={post.username}

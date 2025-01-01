@@ -1,7 +1,7 @@
 export interface Comment {
   username: string
   content: string
-  timestamp?: string
+  timestamp: string
   likes?: number
   userLiked?: boolean
 }

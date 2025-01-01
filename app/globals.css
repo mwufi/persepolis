@@ -281,6 +281,33 @@
   overflow: hidden;
 }
 
+@keyframes heart-burst {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes heart-ping {
+  75%, 100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+.animate-heart-burst {
+  animation: heart-burst 0.3s ease-in-out;
+}
+
+.animate-heart-ping {
+  animation: heart-ping 0.3s cubic-bezier(0, 0, 0.2, 1);
+}
+
 @layer base {
   * {
     @apply border-border;

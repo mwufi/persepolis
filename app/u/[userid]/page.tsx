@@ -2,6 +2,7 @@
 
 import { use } from 'react';
 import Image from 'next/image';
+import { Suspense } from 'react';
 import ImageGrid from '@/components/ImageGrid';
 import Sidebar from '@/components/Sidebar';
 
@@ -91,7 +92,9 @@ export default function UserProfilePage({ params }: { params: Promise<{ userid: 
 
         {/* Posts Grid - Full Width with consistent fluid margin */}
         <div className="px-[6%]">
-          <ImageGrid images={userData.posts} />
+          <Suspense fallback={<div>Loading posts...</div>}>
+            <ImageGrid images={userData.posts} />
+          </Suspense>
         </div>
       </main>
     </div>

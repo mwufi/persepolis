@@ -1,13 +1,15 @@
 'use client'
 
 import Link from 'next/link'
-import { HeartIcon, MessageCircleIcon, SendIcon, BookmarkIcon } from 'lucide-react'
+import { useState } from 'react'
+import HeartButton from './HeartButton'
 
 interface Comment {
   username: string
   content: string
-  userLiked?: boolean
+  timestamp: string
   likes?: number
+  userLiked?: boolean
 }
 
 interface CommentsDisplayProps {
@@ -17,58 +19,69 @@ interface CommentsDisplayProps {
   timestamp: string
 }
 
-export default function CommentsDisplay({ comments, caption, username, timestamp }: CommentsDisplayProps) {
+export default function CommentsDisplay({ comments: initialComments, caption, username, timestamp }: CommentsDisplayProps) {
+  const [comments, setComments] = useState(initialComments)
+
+  const toggleLike = (index: number, isLiked: boolean) => {
+    setComments(prevComments => prevComments.map((comment, i) => {
+      if (i === index) {
+        return {
+          ...comment,
+          userLiked: isLiked,
+          likes: (comment.likes || 0) + (isLiked ? 1 : -1)
+        }
+      }
+      return comment
+    }))
+  }
+
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1">
-        {/* Post description */}
-        <div className="flex items-start gap-2 mb-4">
-          <Link href={`/u/${username}`} className="font-semibold hover:text-gray-600 transition-colors">
+    <div className="px-4 space-y-4">
+      {caption && (
+        <p className="text-sm">
+          <Link href={`/u/${username}`} className="font-semibold no-artistic-style">
             {username}
-          </Link>
-          {caption && (
-            <p className="text-sm">{caption}</p>
-          )}
-        </div>
-
-        {/* Comments */}
-        <div className="space-y-3">
-          {comments.map((comment, index) => (
-            <div key={index} className="flex justify-between items-start gap-2">
-              <div>
-                <Link href={`/u/${comment.username}`} className="font-semibold text-sm hover:text-gray-600 transition-colors">
-                  {comment.username}
-                </Link>{' '}
-                <span className="text-sm">{comment.content}</span>
-              </div>
-              <button className="text-xs text-gray-500 hover:text-red-500">
-                <HeartIcon size={14} />
-              </button>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Action buttons */}
-      <div className="mt-auto pt-4 border-t">
-        <div className="flex justify-between mb-3">
-          <div className="flex gap-4">
-            <button className="hover:text-red-500 transition-colors">
-              <HeartIcon size={24} />
-            </button>
-            <button className="hover:text-blue-500 transition-colors">
-              <MessageCircleIcon size={24} />
-            </button>
-            <button className="hover:text-green-500 transition-colors">
-              <SendIcon size={24} />
-            </button>
+          </Link>{' '}
+          {caption}
+        </p>
+      )}
+      
+      {comments.map((comment, index) => (
+        <div key={index} className="flex justify-between items-start">
+          <p className="text-sm flex-1">
+            <Link href={`/u/${comment.username}`} className="font-semibold no-artistic-style">
+              {comment.username}
+            </Link>{' '}
+            {comment.content}
+          </p>
+          <div className="ml-2 flex-shrink-0">
+            <HeartButton
+              size="sm"
+              initialIsLiked={comment.userLiked}
+              onToggle={(isLiked) => toggleLike(index, isLiked)}
+            />
           </div>
-          <button className="hover:text-yellow-500 transition-colors">
-            <BookmarkIcon size={24} />
-          </button>
         </div>
-        <p className="font-semibold text-sm mb-1">1,337 likes</p>
-        <p className="text-xs text-gray-500 uppercase">{timestamp}</p>
+      ))}
+      
+      <div className="text-xs uppercase text-gray-500 py-2">
+        {timestamp}
+      </div>
+      
+      <div className="border-t py-3 flex items-center space-x-2">
+        <button>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.182 15.182a4.5 4.5 0 01-6.364 0M21 12a9 9 0 11-18 0 9 9 0 0118 0zM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75zm-.375 0h.008v.015h-.008V9.75zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75zm-.375 0h.008v.015h-.008V9.75z" />
+          </svg>
+        </button>
+        <input
+          type="text"
+          placeholder="Add a comment..."
+          className="flex-1 border-none outline-none text-sm"
+        />
+        <button className="text-blue-500 font-semibold text-sm disabled:opacity-50">
+          Post
+        </button>
       </div>
     </div>
   )
