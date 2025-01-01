@@ -1,5 +1,6 @@
 import { readdirSync, statSync, existsSync } from 'fs'
 import path from 'path'
+import matter from 'gray-matter'
 
 export interface DirectoryEntry {
   name: string;
@@ -69,4 +70,21 @@ export function getAllPaths(dir: string, basePath: string = ''): string[][] {
   }
 
   return paths
+}
+
+export function parseMdxFile(content: string) {
+  const { data: frontMatter, content: mdxContent } = matter(content)
+  return { frontMatter, mdxContent }
+}
+
+export async function getMdxContent(slug: string[]) {
+  const fullPath = getFullPath(slug)
+  const mdxPath = getMdxPath(fullPath)
+  
+  if (checkMdxExists(mdxPath)) {
+    const fs = require('fs')
+    const rawContent = fs.readFileSync(mdxPath, 'utf-8')
+    return parseMdxFile(rawContent)
+  }
+  return null
 }
