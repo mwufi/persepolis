@@ -33,52 +33,49 @@ export function ArticlePreview({
   className
 }: ArticlePreviewProps) {
   const content = (
-    <div className={cn(
-      "group transition-colors p-4 rounded-lg",
-      "hover:bg-secondary/50",
-      className
-    )}>
+    <div className={cn("flex flex-col space-y-4", className)}>
       {/* Author */}
-      <ArticleAuthor
-        name={author.name}
-        avatar={author.avatar}
-        timestamp={author.timestamp}
-      />
-      
-      <div className="h-4" />
+      <div className="flex items-center">
+        <ArticleAuthor
+          name={author.name}
+          avatar={author.avatar}
+          timestamp={author.timestamp}
+        />
+      </div>
 
+      {/* Title and Image */}
       <div className="flex flex-col space-y-3">
-        {/* Title */}
-        <div className="flex-1">
-          <h3 className="text-16 text-c_t01 leading-[26px] font-normal line-clamp-3 md:line-clamp-5">
+        <div className="line-clamp-3 relative md:line-clamp-5">
+          <span className="text-16 text-c_t01 leading-[26px] font-normal">
             {title}
-          </h3>
+          </span>
         </div>
 
-        {/* Image */}
         {image && (
-          <div className="relative rounded-md overflow-hidden bg-muted">
-            <img
-              src={image.url}
-              alt={image.alt || title}
-              className="object-cover w-full relative z-10"
-              style={{ aspectRatio: image.aspectRatio || "2.03 / 1" }}
-              loading="lazy"
-            />
+          <div className="mt-3">
+            <div className="flex-1 rounded-md overflow-hidden relative min-h-[24px] bg-bglight">
+              <img
+                loading="lazy"
+                src={image.url}
+                alt={image.alt}
+                className="object-cover w-full z-10 relative"
+                style={{ aspectRatio: image.aspectRatio }}
+              />
+            </div>
           </div>
         )}
       </div>
 
       {/* Tickers */}
       {tickers && tickers.length > 0 && (
-        <div className="mt-3 flex flex-row items-center justify-between">
-          <div className="flex flex-row gap-2">
-            {tickers.map((ticker) => (
+        <div className="flex flex-row items-center justify-between">
+          <div className="flex flex-row">
+            {tickers.map((ticker, index) => (
               <TickerLink
-                key={ticker.symbol}
+                key={index}
                 symbol={ticker.symbol}
                 change={ticker.change}
-                compact
+                className="mr-2"
               />
             ))}
           </div>

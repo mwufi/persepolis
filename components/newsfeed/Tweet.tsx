@@ -34,7 +34,7 @@ export function Tweet({
 }: TweetProps) {
   const tweetContent = (
     <div className={cn(
-      "group transition-colors p-4 rounded-lg",
+      "flex flex-col space-y-3",
       !isFullView && "",
       className
     )}>
@@ -45,7 +45,6 @@ export function Tweet({
       />
 
       <div className={cn(
-        "mt-3",
         isFullView ? "text-lg" : "text-base"
       )}>
         {content.split('\n').map((paragraph, index) => (
@@ -54,13 +53,12 @@ export function Tweet({
       </div>
 
       {images && images.length > 0 && (
-        <div className="mt-3">
+        <div>
           <TweetImgPreview images={images} />
         </div>
       )}
 
       <div className={cn(
-        "mt-4",
         isFullView && "border-t border-line pt-4"
       )}>
         <LikeShareButtons
