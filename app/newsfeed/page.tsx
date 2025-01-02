@@ -7,6 +7,7 @@ import { Tweet } from '@/components/newsfeed/Tweet';
 import { News } from '@/components/newsfeed/News';
 import { Searchbar } from '@/components/newsfeed/Searchbar';
 import { ArticlePreview } from '@/components/newsfeed/ArticlePreview';
+import { SpacingContainer } from "@/components/newsfeed/SpacingContainer"
 
 const mockArticle = {
   title: "Kekius Maximus Era Ends as Elon Musk's Name Change on X Hits Crypto Market",
@@ -103,8 +104,8 @@ export default function NewsfeedPage() {
           </div>
 
           {/* Navigation Items */}
-          <SidebarItem icon={<Home className="h-full w-full" />} label="Home" href="/en" />
-          <SidebarItem icon={<Newspaper className="h-full w-full" />} label="News" href="/en/news" />
+          <SidebarItem icon={<Home className="h-full w-full" />} label="Home" href="/" />
+          <SidebarItem icon={<Newspaper className="h-full w-full" />} label="News" href="/newsfeed" />
           <SidebarItem icon={<Compass className="h-full w-full" />} label="Market" href="/en/explore" />
           <SidebarItem icon={<Radio className="h-full w-full" />} label="Channel" href="/en/channelList" />
           <SidebarItem icon={<Hash className="h-full w-full" />} label="Topic" href="/en/topic" />
@@ -120,121 +121,108 @@ export default function NewsfeedPage() {
         <div className="w-full max-w-2xl mx-auto pl-4 xl:pl-10 pr-4 xl:pr-10">
           <div className="flex flex-col">
             {/* Main Article */}
-            <div className="py-5">
+            <div className="mt-5">
               <Article {...mockArticle} />
             </div>
 
             {/* Related Content */}
-            <div className="border-t border-line">
-              <div className="py-5">
-                <h2 className="text-lg font-semibold">Related Content</h2>
-              </div>
+            <h2 className="text-lg font-semibold border-t mt-5 pt-5">Related Content</h2>
+            <SpacingContainer>
+              <ArticlePreview
+                title="Jupiter and Sonic SVM kick off January 2025 Airdrop"
+                author={{
+                  name: "CoinMoi",
+                  avatar: "https://static.fwimg.io/img/user/3846895cebb67d0ba68cec165b090d1d.jpg",
+                  timestamp: "12 hours ago"
+                }}
+                image={{
+                  url: "https://static.fwimg.io/img/feed/76e351e37e733c593bdb231b72eaeb82.jpg",
+                  alt: "Jupiter Airdrop",
+                  aspectRatio: 2.03
+                }}
+                tickers={[
+                  { symbol: "JUP", change: 8.85 }
+                ]}
+                href="/article/jupiter-airdrop"
+              />
 
-              <div className="divide-y divide-line">
-                <div className="py-5">
-                  <ArticlePreview
-                    title="Jupiter and Sonic SVM kick off January 2025 Airdrop"
-                    author={{
-                      name: "CoinMoi",
-                      avatar: "https://static.fwimg.io/img/user/3846895cebb67d0ba68cec165b090d1d.jpg",
-                      timestamp: "12 hours ago"
-                    }}
-                    image={{
-                      url: "https://static.fwimg.io/img/feed/76e351e37e733c593bdb231b72eaeb82.jpg",
-                      alt: "Jupiter Airdrop",
-                      aspectRatio: 2.03
-                    }}
-                    tickers={[
-                      { symbol: "JUP", change: 8.85 }
-                    ]}
-                    href="/article/jupiter-airdrop"
-                  />
-                </div>
+              <Tweet
+                author={{
+                  name: "Vitalik Buterin",
+                  handle: "VitalikButerin",
+                  avatar: "/vitalik.jpg"
+                }}
+                content="Layer 2 scaling solutions are the future of Ethereum. Here's why..."
+                timestamp="2 hours ago"
+                metrics={{
+                  likes: 5435,
+                  replies: 432,
+                  retweets: 1234
+                }}
+                images={["/1.png", "/2.png"]}
+              />
 
-                <div className="py-5">
-                  <Tweet
-                    author={{
-                      name: "Vitalik Buterin",
-                      handle: "VitalikButerin",
-                      avatar: "/vitalik.jpg"
-                    }}
-                    content="Layer 2 scaling solutions are the future of Ethereum. Here's why..."
-                    timestamp="2 hours ago"
-                    metrics={{
-                      likes: 5435,
-                      replies: 432,
-                      retweets: 1234
-                    }}
-                    images={["/1.png", "/2.png"]}
-                  />
-                </div>
+              <ArticlePreview
+                title="Solana TVL reaches new all-time high as DeFi activity surges"
+                author={{
+                  name: "DeFi Daily",
+                  avatar: "/defi-daily.jpg",
+                  timestamp: "3 hours ago"
+                }}
+                tickers={[
+                  { symbol: "SOL", change: 12.4 },
+                  { symbol: "JTO", change: -2.3 }
+                ]}
+                href="/article/solana-tvl-ath"
+              />
+              <ArticlePreview
+                title="Jupiter and Sonic SVM kick off January 2025 Airdrop"
+                author={{
+                  name: "CoinMoi",
+                  avatar: "https://static.fwimg.io/img/user/3846895cebb67d0ba68cec165b090d1d.jpg",
+                  timestamp: "12 hours ago"
+                }}
+                image={{
+                  url: "https://static.fwimg.io/img/feed/76e351e37e733c593bdb231b72eaeb82.jpg",
+                  alt: "Jupiter Airdrop",
+                  aspectRatio: 2.03
+                }}
+                tickers={[
+                  { symbol: "JUP", change: 8.85 }
+                ]}
+                href="/article/jupiter-airdrop"
+              />
 
-                <div className="py-5">
-                  <ArticlePreview
-                    title="Solana TVL reaches new all-time high as DeFi activity surges"
-                    author={{
-                      name: "DeFi Daily",
-                      avatar: "/defi-daily.jpg",
-                      timestamp: "3 hours ago"
-                    }}
-                    tickers={[
-                      { symbol: "SOL", change: 12.4 },
-                      { symbol: "JTO", change: -2.3 }
-                    ]}
-                    href="/article/solana-tvl-ath"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="space-y-px divide-y divide-line">
-            <ArticlePreview
-              title="Jupiter and Sonic SVM kick off January 2025 Airdrop"
-              author={{
-                name: "CoinMoi",
-                avatar: "https://static.fwimg.io/img/user/3846895cebb67d0ba68cec165b090d1d.jpg",
-                timestamp: "12 hours ago"
-              }}
-              image={{
-                url: "https://static.fwimg.io/img/feed/76e351e37e733c593bdb231b72eaeb82.jpg",
-                alt: "Jupiter Airdrop",
-                aspectRatio: 2.03
-              }}
-              tickers={[
-                { symbol: "JUP", change: 8.85 }
-              ]}
-              href="/article/jupiter-airdrop"
-            />
+              <Tweet
+                author={{
+                  name: "Vitalik Buterin",
+                  handle: "VitalikButerin",
+                  avatar: "/vitalik.jpg"
+                }}
+                content="Layer 2 scaling solutions are the future of Ethereum. Here's why..."
+                timestamp="2 hours ago"
+                metrics={{
+                  likes: 5435,
+                  replies: 432,
+                  retweets: 1234
+                }}
+                images={["/1.png", "/2.png"]}
+              />
 
-            <Tweet
-              author={{
-                name: "Vitalik Buterin",
-                handle: "VitalikButerin",
-                avatar: "/vitalik.jpg"
-              }}
-              content="Layer 2 scaling solutions are the future of Ethereum. Here's why..."
-              timestamp="2 hours ago"
-              metrics={{
-                likes: 5435,
-                replies: 432,
-                retweets: 1234
-              }}
-              images={["/1.png", "/2.png"]}
-            />
-
-            <ArticlePreview
-              title="Solana TVL reaches new all-time high as DeFi activity surges"
-              author={{
-                name: "DeFi Daily",
-                avatar: "/defi-daily.jpg",
-                timestamp: "3 hours ago"
-              }}
-              tickers={[
-                { symbol: "SOL", change: 12.4 },
-                { symbol: "JTO", change: -2.3 }
-              ]}
-              href="/article/solana-tvl-ath"
-            />
+              <ArticlePreview
+                title="Solana TVL reaches new all-time high as DeFi activity surges"
+                author={{
+                  name: "DeFi Daily",
+                  avatar: "/defi-daily.jpg",
+                  timestamp: "3 hours ago"
+                }}
+                tickers={[
+                  { symbol: "SOL", change: 12.4 },
+                  { symbol: "JTO", change: -2.3 }
+                ]}
+                href="/article/solana-tvl-ath"
+              />
+            </SpacingContainer>
           </div>
         </div>
       }

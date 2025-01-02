@@ -1,7 +1,7 @@
 'use client'
 
 import Sidebar from '@/components/instagram/Sidebar';
-import ImageGrid from '@/components/ImageGrid';
+import ImageGrid from '@/components/instagram/ImageGrid';
 import { Suspense } from 'react';
 
 const sampleImages = [

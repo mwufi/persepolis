@@ -7,6 +7,7 @@ import { Tweet } from '@/components/newsfeed/Tweet';
 import { News } from '@/components/newsfeed/News';
 import { Searchbar } from '@/components/newsfeed/Searchbar';
 import { ArticlePreview } from '@/components/newsfeed/ArticlePreview';
+import { SpacingContainer } from '@/components/newsfeed/SpacingContainer';
 
 const mockArticle = {
   title: "Kekius Maximus Era Ends as Elon Musk's Name Change on X Hits Crypto Market",
@@ -117,8 +118,8 @@ export default function NewsfeedPage() {
         </Sidebar>
       }
       mainContent={
-        <div className="w-full max-w-2xl mx-auto">
-          <div className="divide-y divide-line">
+        <div className="w-full max-w-2xl mx-auto pl-4 xl:pl-10 pr-4 xl:pr-10">
+          <SpacingContainer>
             <ArticlePreview
               title="Jupiter and Sonic SVM kick off January 2025 Airdrop"
               author={{
@@ -166,7 +167,7 @@ export default function NewsfeedPage() {
               ]}
               href="/article/solana-tvl-ath"
             />
-          </div>
+          </SpacingContainer>
         </div>
       }
       rightSidebar={
