@@ -19,7 +19,9 @@ export function ThreeColumnLayout({
       {/* Left Sidebar */}
       {leftSidebar && (
         <aside className="hidden lg:block w-[56px] xl:w-[260px] border-r border-line flex-none">
-          {leftSidebar}
+          <div className="fixed top-0 w-[56px] xl:w-[260px] h-screen overflow-y-auto">
+            {leftSidebar}
+          </div>
         </aside>
       )}
       
@@ -31,7 +33,9 @@ export function ThreeColumnLayout({
       {/* Right Sidebar */}
       {rightSidebar && (
         <aside className="hidden lg:block w-[350px] border-l border-line flex-none">
-          {rightSidebar}
+          <div className="fixed top-0 w-[350px] h-screen overflow-y-auto">
+            {rightSidebar}
+          </div>
         </aside>
       )}
     </div>

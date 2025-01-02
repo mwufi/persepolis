@@ -3,6 +3,7 @@ import { ThreeColumnLayout } from '@/components/newsfeed/ThreeColumnLayout';
 import { Sidebar } from '@/components/newsfeed/Sidebar';
 import { SidebarItem } from '@/components/newsfeed/SidebarItem';
 import { Article } from '@/components/newsfeed/Article';
+import { Tweet } from '@/components/newsfeed/Tweet';
 import { News } from '@/components/newsfeed/News';
 import { Searchbar } from '@/components/newsfeed/Searchbar';
 
@@ -53,6 +54,37 @@ const mockNews = [
   }
 ];
 
+const mockTweets = [
+  {
+    author: {
+      name: "Vitalik Buterin",
+      avatar: "https://pbs.twimg.com/profile_images/977496875887558661/L86xyLF4_400x400.jpg",
+      handle: "@VitalikButerin"
+    },
+    content: "Layer 2 rollups are the future of Ethereum scaling. The ecosystem is growing rapidly and I'm excited to see what's next.",
+    timestamp: "2 hours ago",
+    metrics: {
+      likes: 5243,
+      retweets: 1234,
+      replies: 432
+    }
+  },
+  {
+    author: {
+      name: "CZ Binance",
+      avatar: "https://pbs.twimg.com/profile_images/1690836164017348608/r4i8LF4E_400x400.jpg",
+      handle: "@cz_binance"
+    },
+    content: "Bitcoin just hit a new 2024 high! The future is bright. #BTC #Crypto",
+    timestamp: "4 hours ago",
+    metrics: {
+      likes: 3422,
+      retweets: 890,
+      replies: 234
+    }
+  }
+];
+
 export default function NewsfeedPage() {
   return (
     <ThreeColumnLayout
@@ -84,8 +116,16 @@ export default function NewsfeedPage() {
         </Sidebar>
       }
       mainContent={
-        <div className="px-4 xl:px-10 py-5">
+        <div className="px-4 xl:px-10 py-5 space-y-6">
           <Article {...mockArticle} />
+          <div className="border-t border-line pt-6">
+            <h2 className="text-lg font-semibold mb-4">Related Tweets</h2>
+            <div className="space-y-4">
+              {mockTweets.map((tweet, index) => (
+                <Tweet key={index} {...tweet} />
+              ))}
+            </div>
+          </div>
         </div>
       }
       rightSidebar={
