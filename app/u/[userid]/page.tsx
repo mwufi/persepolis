@@ -4,7 +4,7 @@ import { use } from 'react';
 import Image from 'next/image';
 import { Suspense } from 'react';
 import ImageGrid from '@/components/ImageGrid';
-import Sidebar from '@/components/Sidebar';
+import Sidebar from '@/components/instagram/Sidebar';
 
 // This would normally come from an API or database
 const getUserData = (userid: string) => ({

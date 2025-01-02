@@ -1,6 +1,6 @@
 'use client'
 
-import Sidebar from '@/components/Sidebar';
+import Sidebar from '@/components/instagram/Sidebar';
 import ImageGrid from '@/components/ImageGrid';
 import { Suspense } from 'react';
 
