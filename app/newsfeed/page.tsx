@@ -1,6 +1,7 @@
 import { Home, Newspaper, Compass, Radio, Hash, Gift, User, Languages, Download, Sun } from 'lucide-react';
 import { ThreeColumnLayout } from '@/components/newsfeed/ThreeColumnLayout';
-import { Sidebar, SidebarItem } from '@/components/newsfeed/Sidebar';
+import { Sidebar } from '@/components/newsfeed/Sidebar';
+import { SidebarItem } from '@/components/newsfeed/SidebarItem';
 import { Article } from '@/components/newsfeed/Article';
 import { News } from '@/components/newsfeed/News';
 import { Searchbar } from '@/components/newsfeed/Searchbar';
@@ -77,9 +78,9 @@ export default function NewsfeedPage() {
           <SidebarItem icon={<Gift className="h-full w-full" />} label="Feature" href="/en/featureList" />
           <SidebarItem icon={<Gift className="h-full w-full" />} label="Rewards Center" href="/en/benefitCenter" />
           <SidebarItem icon={<User className="h-full w-full" />} label="Account" href="/en/account" />
-          <SidebarItem icon={<Languages className="h-full w-full" />} label="Language" onClick={() => {}} />
-          <SidebarItem icon={<Sun className="h-full w-full" />} label="Light" onClick={() => {}} />
-          <SidebarItem icon={<Download className="h-full w-full" />} label="Download App" onClick={() => {}} />
+          <SidebarItem icon={<Languages className="h-full w-full" />} label="Language" />
+          <SidebarItem icon={<Sun className="h-full w-full" />} label="Light" />
+          <SidebarItem icon={<Download className="h-full w-full" />} label="Download App" />
         </Sidebar>
       }
       mainContent={
