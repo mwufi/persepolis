@@ -35,7 +35,7 @@ export function Tweet({
   const tweetContent = (
     <div className={cn(
       "group transition-colors p-4 rounded-lg",
-      !isFullView && "hover:bg-secondary/50",
+      !isFullView && "",
       className
     )}>
       <ArticleAuthor

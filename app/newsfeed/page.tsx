@@ -6,6 +6,7 @@ import { Article } from '@/components/newsfeed/Article';
 import { Tweet } from '@/components/newsfeed/Tweet';
 import { News } from '@/components/newsfeed/News';
 import { Searchbar } from '@/components/newsfeed/Searchbar';
+import { ArticlePreview } from '@/components/newsfeed/ArticlePreview';
 
 const mockArticle = {
   title: "Kekius Maximus Era Ends as Elon Musk's Name Change on X Hits Crypto Market",
@@ -125,6 +126,55 @@ export default function NewsfeedPage() {
                 <Tweet key={index} {...tweet} />
               ))}
             </div>
+          </div>
+          <div className="space-y-px divide-y divide-line">
+            <ArticlePreview
+              title="Jupiter and Sonic SVM kick off January 2025 Airdrop"
+              author={{
+                name: "CoinMoi",
+                avatar: "https://static.fwimg.io/img/user/3846895cebb67d0ba68cec165b090d1d.jpg",
+                timestamp: "12 hours ago"
+              }}
+              image={{
+                url: "https://static.fwimg.io/img/feed/76e351e37e733c593bdb231b72eaeb82.jpg",
+                alt: "Jupiter Airdrop",
+                aspectRatio: 2.03
+              }}
+              tickers={[
+                { symbol: "JUP", change: 8.85 }
+              ]}
+              href="/article/jupiter-airdrop"
+            />
+
+            <Tweet
+              author={{
+                name: "Vitalik Buterin",
+                handle: "VitalikButerin",
+                avatar: "/vitalik.jpg"
+              }}
+              content="Layer 2 scaling solutions are the future of Ethereum. Here's why..."
+              timestamp="2 hours ago"
+              metrics={{
+                likes: 5435,
+                replies: 432,
+                retweets: 1234
+              }}
+              images={["/1.png", "/2.png"]}
+            />
+
+            <ArticlePreview
+              title="Solana TVL reaches new all-time high as DeFi activity surges"
+              author={{
+                name: "DeFi Daily",
+                avatar: "/defi-daily.jpg",
+                timestamp: "3 hours ago"
+              }}
+              tickers={[
+                { symbol: "SOL", change: 12.4 },
+                { symbol: "JTO", change: -2.3 }
+              ]}
+              href="/article/solana-tvl-ath"
+            />
           </div>
         </div>
       }

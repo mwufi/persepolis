@@ -1,39 +1,42 @@
 import React from 'react';
-import { cn } from "@/lib/utils";
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { ArrowUpIcon, ArrowDownIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface TickerLinkProps {
   symbol: string;
   change?: number;
+  compact?: boolean;
   className?: string;
 }
 
-export function TickerLink({ symbol, change, className }: TickerLinkProps) {
+export function TickerLink({ symbol, change, compact = false, className }: TickerLinkProps) {
   const isPositive = change && change > 0;
   const isNegative = change && change < 0;
+  const changeColor = isPositive ? 'text-green-500' : isNegative ? 'text-red-500' : 'text-muted-foreground';
 
   return (
-    <a
-      href={`/ticker/${symbol}`}
+    <div
       className={cn(
-        "inline-flex items-center gap-2 px-3 py-2",
-        "bg-secondary rounded-lg",
-        "hover:bg-secondary/80 transition-colors",
+        "flex flex-row items-center rounded",
+        "bg-secondary/50 px-3 py-1.5",
+        "cursor-pointer",
         className
       )}
     >
-      <span className="font-medium">{symbol}</span>
-      {change && (
-        <span className={cn(
-          "flex items-center gap-1",
-          isPositive && "text-green-500",
-          isNegative && "text-red-500"
-        )}>
-          {isPositive && <TrendingUp className="h-3 w-3" />}
-          {isNegative && <TrendingDown className="h-3 w-3" />}
-          {Math.abs(change).toFixed(2)}%
-        </span>
+      <span className="text-sm font-medium">{symbol}</span>
+      
+      {change !== undefined && (
+        <>
+          <div className="w-2" />
+          <div className="flex flex-row items-center">
+            {isPositive && <ArrowUpIcon className="w-3 h-3 text-green-500" />}
+            {isNegative && <ArrowDownIcon className="w-3 h-3 text-red-500" />}
+            <span className={cn("text-sm ml-1", changeColor)}>
+              {Math.abs(change).toFixed(2)}%
+            </span>
+          </div>
+        </>
       )}
-    </a>
+    </div>
   );
 }
