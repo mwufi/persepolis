@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { ArticleAuthor } from './ArticleAuthor';
 import { LikeShareButtons } from './LikeShareButtons';
 import { TweetImgPreview } from './TweetImgPreview';
+import Link from 'next/link';
 
 interface TweetProps {
   author: {
@@ -18,6 +19,7 @@ interface TweetProps {
     retweets?: number;
     replies?: number;
   };
+  isFullView?: boolean;
   className?: string;
 }
 
@@ -27,18 +29,28 @@ export function Tweet({
   timestamp,
   images,
   metrics,
+  isFullView,
   className
 }: TweetProps) {
-  return (
-    <div className={cn("p-4 border rounded-lg", className)}>
+  const tweetContent = (
+    <div className={cn(
+      "group transition-colors p-4 rounded-lg",
+      !isFullView && "hover:bg-secondary/50",
+      className
+    )}>
       <ArticleAuthor
         name={author.name}
         avatar={author.avatar}
         timestamp={timestamp}
       />
-      
-      <div className="mt-3 text-base">
-        {content}
+
+      <div className={cn(
+        "mt-3",
+        isFullView ? "text-lg" : "text-base"
+      )}>
+        {content.split('\n').map((paragraph, index) => (
+          <p key={index} className="mb-3">{paragraph}</p>
+        ))}
       </div>
 
       {images && images.length > 0 && (
@@ -47,9 +59,31 @@ export function Tweet({
         </div>
       )}
 
-      <div className="mt-4">
-        <LikeShareButtons />
+      <div className={cn(
+        "mt-4",
+        isFullView && "border-t border-line pt-4"
+      )}>
+        <LikeShareButtons
+          metrics={{
+            likes: metrics?.likes,
+            comments: metrics?.replies,
+            shares: metrics?.retweets
+          }}
+          showCounts={isFullView}
+        />
       </div>
     </div>
+  );
+
+  if (isFullView) {
+    return tweetContent;
+  }
+
+  return (
+    <Link href={`/newsfeed/tweet/1`}
+      className="block w-full text-left"
+    >
+      {tweetContent}
+    </Link>
   );
 }
