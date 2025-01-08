@@ -1,12 +1,9 @@
-import Title from "./Title";
-import Subtitle from "./Subtitle";
-import BlogPost from "./BlogPost";
-import Image from "next/image";
+import { BlogDisplay } from "./BlogDisplay";
 import { Panel } from "./Panel";
 
-const Environment = ({ bgImage, children }: { bgImage: string, children: React.ReactNode }) => {
+const Environment = ({ bgImage, children, className }: { bgImage: string, children: React.ReactNode, className?: string }) => {
     return (
-        <div className="relative min-h-screen bg-cover bg-center bg-fixed p-2 md:p-8 lg:p-16" style={{ backgroundImage: bgImage }}>
+        <div className={`relative h-screen bg-cover bg-center bg-fixed p-2 md:p-8 lg:p-16 ${className}`} style={{ backgroundImage: bgImage }}>
             {children}
         </div>
     );
@@ -14,20 +11,9 @@ const Environment = ({ bgImage, children }: { bgImage: string, children: React.R
 
 export default function Page() {
     return (
-        <Environment bgImage="url(/env-mountains.png)">
-            <Panel>
-                <Title text="Introducing... my new blog" />
-                <Subtitle text="Enhancing user engagement" className="text-center" />
-                <div className="relative w-full h-[400px] mb-12 rounded-lg overflow-hidden">
-                    <Image
-                        src="/sample-header.png"
-                        alt="Blog header image"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                </div>
-                <BlogPost paragraphsCount={22} />
+        <Environment bgImage="url(/2.png)">
+            <Panel title="Introducing... my new blog">
+                <BlogDisplay />
             </Panel>
         </Environment >
     );

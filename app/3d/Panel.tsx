@@ -1,9 +1,7 @@
 'use client';
 
-import Tippy from '@tippyjs/react';
-import 'tippy.js/dist/tippy.css';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Download, Maximize2 } from 'lucide-react';
+import { Camera, Download, Maximize2, ChevronDown } from 'lucide-react';
 import { useState } from 'react';
 
 type PanelButton = {
@@ -22,71 +20,98 @@ export const PanelButton = ({ icon, tooltip, onClick }: Omit<PanelButton, 'posit
             {icon}
         </button>
     );
-
-    if (tooltip) {
-        return (
-            <div>
-                <Tippy
-                    content={tooltip}
-                    className="bg-white/10 backdrop-blur-md text-white px-2 py-1 text-sm rounded-md"
-                    arrow={false}
-                    duration={200}
-                    placement="top"
-                >
-                    <div>{button}</div>
-                </Tippy>
-            </div>
-        );
-    }
-
     return button;
 };
 
 export const Panel = ({
     children,
-    buttons = []
+    title,
+    buttons,
 }: {
     children: React.ReactNode;
+    title: string;
     buttons?: PanelButton[];
 }) => {
-    const [isHovered, setIsHovered] = useState(false);
-
-    const panel = (
-        <div className="relative z-10 max-w-4xl mx-auto py-20 px-8 backdrop-blur-md bg-black/15 rounded-xl max-h-[90vh] overflow-y-scroll scrollbar-hide">
-            {children}
-        </div>
-    );
+    const [isTopBarHovered, setIsTopBarHovered] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(false);
 
     return (
-        <div
-            className="relative max-w-4xl mx-auto"
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
+        <motion.div
+            className="relative z-10 max-w-5xl mx-auto backdrop-blur-md bg-black/15 rounded-xl text-white font-afacad text-lg"
+            animate={{
+                height: isCollapsed ? "4rem" : "90vh",
+                transition: { duration: 0.3 }
+            }}
         >
-            <AnimatePresence>
-                {isHovered && (
+            <div
+                className="absolute top-0 left-0 right-0 h-16 z-20 group"
+                onMouseEnter={() => setIsTopBarHovered(true)}
+                onMouseLeave={() => setIsTopBarHovered(false)}
+            >
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-4 z-20">
                     <motion.div
-                        className="absolute right-4 top-4 flex gap-2 z-20"
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0.5 }}
+                        whileHover={{ opacity: 1 }}
                     >
                         <PanelButton
-                            icon={<Camera className="w-5 h-5" />}
-                            tooltip="Reset Camera"
-                        />
-                        <PanelButton
-                            icon={<Download className="w-5 h-5" />}
-                            tooltip="Download"
-                        />
-                        <PanelButton
-                            icon={<Maximize2 className="w-5 h-5" />}
-                            tooltip="Toggle Fullscreen"
+                            icon={<ChevronDown
+                                className="w-5 h-5 transition-transform"
+                                style={{
+                                    transform: isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)'
+                                }}
+                            />}
+                            onClick={() => setIsCollapsed(!isCollapsed)}
                         />
                     </motion.div>
-                )}
-            </AnimatePresence>
-            {panel}
-        </div>
+                    <AnimatePresence>
+                        {isCollapsed && (
+                            <motion.span
+                                initial={{ opacity: 0, y: 0 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: 20 }}
+                                className="text-xl font-semibold px-4 py-1.5"
+                            >
+                                {title}
+                            </motion.span>
+                        )}
+                    </AnimatePresence>
+                </div>
+
+                <AnimatePresence>
+                    {isTopBarHovered && (
+                        <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-2 z-20">
+                            <motion.div
+                                className="flex gap-2"
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 20 }}
+                            >
+                                <PanelButton
+                                    icon={<Camera className="w-5 h-5" />}
+                                    tooltip="Reset Camera"
+                                />
+                                <PanelButton
+                                    icon={<Download className="w-5 h-5" />}
+                                    tooltip="Download"
+                                />
+                                <PanelButton
+                                    icon={<Maximize2 className="w-5 h-5" />}
+                                    tooltip="Toggle Fullscreen"
+                                />
+                            </motion.div>
+                        </div>
+                    )}
+                </AnimatePresence>
+            </div>
+            <motion.div
+                className="h-full overflow-y-auto scrollbar-hide py-20 px-[5%] xl:px-[8%]"
+                animate={{
+                    opacity: isCollapsed ? 0 : 1,
+                    transition: { duration: 0.2 }
+                }}
+            >
+                {children}
+            </motion.div>
+        </motion.div>
     );
 }

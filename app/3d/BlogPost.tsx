@@ -6,7 +6,7 @@ export default function BlogPost({ paragraphsCount = 3 }) {
     ));
 
     return (
-        <article className="prose prose-lg prose-invert font-afacad">
+        <article className="prose prose-lg prose-invert font-afacad max-w-prose mx-auto">
             {paragraphs}
         </article>
     );
