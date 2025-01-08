@@ -2,12 +2,7 @@ import Title from "./Title";
 import Subtitle from "./Subtitle";
 import BlogPost from "./BlogPost";
 import Image from "next/image";
-
-const Panel = ({ children }: { children: React.ReactNode }) => {
-    return <div className="relative z-10 max-w-4xl mx-auto py-20 px-8 backdrop-blur-md bg-black/15 rounded-xl max-h-[90vh] overflow-y-scroll scrollbar-hide">
-        {children}
-    </div>;
-}
+import { Panel } from "./Panel";
 
 const Environment = ({ bgImage, children }: { bgImage: string, children: React.ReactNode }) => {
     return (
