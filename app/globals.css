@@ -3,15 +3,18 @@
 @tailwind utilities;
 
 :root {
-  --text: hsl(0 0% 9%);
-  --text-secondary: hsl(0 0% 40%);
-  --accent: hsl(212 100% 48%);
+  --text: hsl(0, 0%, 100%);
+  --text-secondary: hsl(0, 0%, 91%);
+  --accent: white;
   --accent-light: hsl(212 100% 94%);
+  --code-background: hsl(0, 6%, 38%);
+  --font-sail: Sail;
+  --font-afacad: Afacad;
 }
 
 @layer base {
   html {
-    font-size: 17px;
+    font-size: 22px;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -40,29 +43,35 @@
   /* Reader styles - only apply within .reader */
   .reader {
     /* Modern heading hierarchy */
-    h1, h2, h4 {
+    h1, h2, h3, h4 {
       font-weight: 600;
       letter-spacing: -0.02em;
       line-height: 1.2;
+      margin-top: 2.5rem;
+      margin-bottom: 1.5rem;
     }
 
     h1 {
-      font-size: 2.5rem;
-      margin: 2.5rem 0 1.5rem;
+      font-size: 2.75rem;
+      font-family: var(--font-sail);
+      margin-top: 0;
     }
 
     h2 {
-      font-size: 1.75rem;
-      margin: 2rem 0 1.25rem;
-      color: var(--text);
+      font-size: 2rem;
+      font-family: var(--font-sail);
+      font-weight: 700;
     }
 
     h3 {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin: 1.75rem 0 1rem;
-      color: var(--text-secondary);
+      font-size: 1.5rem;
+      font-family: var(--font-sail);
+      font-weight: 600;
+    }
+
+    h4 {
+      font-size: 1.25rem;
+      font-family: var(--font-afacad);
       font-weight: 500;
     }
 
@@ -77,23 +86,12 @@
       margin-top: -0.2rem;
     }
 
-    /* Artistic link styling */
-    a:not(.no-artistic-style) {
-      color: var(--accent);
-      text-decoration: none;
-      position: relative;
-      padding: 0.1em 0.2em;
-      margin: 0 -0.2em;
-      font-weight: 600;
-      background: linear-gradient(var(--accent-light), var(--accent-light));
-      background-size: 100% 0%;
-      background-position: 0 100%;
-      background-repeat: no-repeat;
-      transition: background-size 0.2s ease-in-out, color 0.1s ease-in-out;
-    }
-
-    a:not(.no-artistic-style):hover {
-      background-size: 100% 100%;
+    a {
+      text-decoration: underline;
+      text-decoration-thickness: 0.1em;
+      text-underline-offset: 0.15em;
+      text-decoration-color: hsl(var(--accent));
+      transition: text-decoration-color 0.15s ease;
     }
 
     p a {
@@ -138,7 +136,7 @@
       color: var(--accent);
       position: absolute;
       left: -1rem;
-      top: -0.3em;
+      top: 0em;
       font-size: 1.4em;
       font-weight: bold;
     }
@@ -185,7 +183,7 @@
     pre, code {
       font-family: var(--font-geist-mono);
       font-size: 0.9rem;
-      background: hsl(0 0% 97%);
+      background: var(--code-background);
       padding: 0.2em 0.4em;
       border-radius: 4px;
     }

@@ -26,14 +26,14 @@ export const PanelButton = ({ icon, tooltip, onClick }: Omit<PanelButton, 'posit
 export const Panel = ({
     children,
     title,
-    buttons,
+    collapsed = false,
 }: {
     children: React.ReactNode;
     title: string;
-    buttons?: PanelButton[];
+    collapsed?: boolean;
 }) => {
     const [isTopBarHovered, setIsTopBarHovered] = useState(false);
-    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isCollapsed, setIsCollapsed] = useState(collapsed);
 
     return (
         <motion.div
@@ -57,7 +57,7 @@ export const Panel = ({
                             icon={<ChevronDown
                                 className="w-5 h-5 transition-transform"
                                 style={{
-                                    transform: isCollapsed ? 'rotate(180deg)' : 'rotate(0deg)'
+                                    transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)'
                                 }}
                             />}
                             onClick={() => setIsCollapsed(!isCollapsed)}
@@ -78,7 +78,7 @@ export const Panel = ({
                 </div>
 
                 <AnimatePresence>
-                    {isTopBarHovered && (
+                    {isTopBarHovered && !isCollapsed && (
                         <div className="absolute right-4 top-1/2 -translate-y-1/2 flex gap-2 z-20">
                             <motion.div
                                 className="flex gap-2"

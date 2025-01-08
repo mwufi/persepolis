@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Sail, Afacad } from "next/font/google";
 import "@/app/globals.css";
 import HomeLink from "@/components/HomeLink";
+import Environment from "@/components/3d/Environment";
+import { Panel } from "@/components/3d/Panel";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,14 +41,27 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <style>{`
+          html {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+          }
+          html::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${sail.variable} ${afacad.variable} antialiased min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sail.variable} ${afacad.variable} antialiased h-screen`}
       >
-        <div className="reader max-w-[65ch] mx-auto px-4 sm:px-6 lg:px-8 pb-10 min-h-screen flex flex-col">
-          <div className="flex-grow">{children}</div>
-          <HomeLink />
-        </div>
+        <Environment bgImage="url(/2.png)">
+          <Panel title="Zentomorrow">
+            <article className="reader prose prose-lg prose-invert font-afacad max-w-[600px] mx-auto">
+              {children}
+            </article>
+            <HomeLink />
+          </Panel>
+        </Environment>
       </body>
     </html>
   );
