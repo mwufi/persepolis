@@ -32,10 +32,10 @@
   }
 
   /* Subtle selection */
-  ::selection {
+  /* ::selection {
     background: var(--accent-light);
     color: var(--accent);
-  }
+  } */
 
   /* Reader styles - only apply within .reader */
   .reader {
@@ -316,3 +316,14 @@
     @apply bg-background text-foreground;
   }
 }
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+

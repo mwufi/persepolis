@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Sail, Afacad } from "next/font/google";
 import "@/app/globals.css";
 
 const geistSans = Geist({
@@ -10,6 +10,18 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const sail = Sail({
+  variable: "--font-sail",
+  subsets: ["latin"],
+  weight: "400",
+});
+
+const afacad = Afacad({
+  variable: "--font-afacad",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"]
 });
 
 export const metadata: Metadata = {
@@ -25,10 +37,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-
+        <style>
+          @import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Sail&display=swap');
+        </style>
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sail.variable} ${afacad.variable} antialiased min-h-screen`}
       >
         {children}
       </body>
