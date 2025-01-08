@@ -40,26 +40,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <style>{`
-          html {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-          }
-          html::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${sail.variable} ${afacad.variable} antialiased h-screen`}
       >
-        <Environment bgImage="url(/2.png)">
+        <Environment bgImage="url(/env-mountains.png)">
           <Panel title="Zentomorrow">
-            <article className="reader prose prose-lg prose-invert font-afacad max-w-[600px] mx-auto">
-              {children}
-            </article>
-            <HomeLink />
+            {children}
           </Panel>
         </Environment>
       </body>

@@ -116,7 +116,7 @@ export default async function Page({ params }: BBProps) {
             <Link
               key={entry.path}
               href={`/${entry.path}`}
-              className="p-4 rounded-lg hover:bg-gray-50 transition-colors"
+              className="p-4 rounded-lg hover:bg-white/20 transition-colors"
             >
               <div className="flex items-center gap-2">
                 {entry.isDirectory ? '📁' : '📄'} {entry.name}
