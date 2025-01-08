@@ -5,7 +5,7 @@ import { useState, use } from 'react';
 import { getPostData } from '@/lib/posts';
 import PostHeader from '@/components/instagram/PostHeader';
 import PostActions from '@/components/instagram/PostActions';
-import CommentsDisplay from '@/components/CommentsDisplay';
+import CommentsDisplay from '@/components/instagram/CommentsDisplay';
 
 function PostContent({ initialPost }: { initialPost: ReturnType<typeof getPostData> }) {
   const [post, setPost] = useState(initialPost);
