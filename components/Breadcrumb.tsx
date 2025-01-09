@@ -20,7 +20,7 @@ export function Breadcrumb({ slug }: BreadcrumbProps) {
   })
 
   return (
-    <nav className="flex gap-2 text-sm mb-4" aria-label="Breadcrumb">
+    <nav className="flex gap-2 text-sm" aria-label="Breadcrumb">
       <Link href="/" className="hover:bg-white/20 px-2 py-1 rounded-md">
         Home
       </Link>

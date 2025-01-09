@@ -9,13 +9,14 @@ import {
   getDirectoryContents,
   getAllPaths,
   getMdxContent
-} from './utils'
+} from '@/lib/mdx'
 import Link from 'next/link';
 import { PostMeta } from './PostMeta';
 import { Metadata } from 'next'
 import { getSiteConfig, getFullUrl } from '../../../lib/config'
 import { Panel } from '@/components/3d/Panel';
 import Environment from '@/components/3d/Environment';
+import { CollectionView } from '@/components/CollectionView'
 
 interface BBProps {
   params: Promise<{ slug: string[] }>
@@ -99,13 +100,16 @@ export default async function Page({ params }: BBProps) {
 
     return (
       <Environment bgImage={getEnv(mdxData.frontMatter.env)}>
-        <Panel title={mdxData.frontMatter.title}>
+        <Panel
+          title={mdxData.frontMatter.title}
+          breadcrumbs={<Breadcrumb slug={slug} />}
+          back
+        >
           <div className="flex flex-col gap-10">
             {mdxData.frontMatter && <PostMeta frontMatter={mdxData.frontMatter} />}
-            <div className="max-w-[600px] mx-auto main-article">
+            <div className="max-w-[600px] mx-auto w-full main-article">
               <Post />
             </div>
-            <Breadcrumb slug={slug} />
           </div>
         </Panel>
         <div className="mt-4"></div>
@@ -117,37 +121,22 @@ export default async function Page({ params }: BBProps) {
     )
   }
 
+  console.log(fullPath)
+
   // Check if directory exists
   if (checkDirectoryExists(fullPath)) {
-    const directoryContents = getDirectoryContents(fullPath, slug)
-
-    // Sort by modification date, newest first
-    directoryContents.sort((a, b) => b.modifiedAt.getTime() - a.modifiedAt.getTime())
+    const directoryContents = getDirectoryContents(fullPath, slug, true)
 
     return (
       <Environment bgImage='url(/env-mountains.png)'>
-        <Panel title="Navigation">
-          <Breadcrumb slug={slug} />
-          <h1 className="text-3xl font-bold mb-6">{slug[slug.length - 1]}</h1>
-          <div className="grid gap-4">
-            {directoryContents.map((entry) => (
-              <Link
-                key={entry.path}
-                href={`/${entry.path}`}
-                className="p-4 rounded-lg hover:bg-white/20 transition-colors"
-              >
-                <div className="flex items-center gap-2">
-                  {entry.isDirectory ? '📁' : '📄'} {entry.name}
-                  <span className="text-sm text-gray-500 ml-auto">
-                    {entry.modifiedAt.toLocaleDateString()}
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-          <div className="mt-10 text-sm text-gray-500 italic">
-            Views like this are <span className="font-semibold">collection views</span>, which are automatically generated from a folder!
-          </div>
+        <Panel
+          breadcrumbs={<Breadcrumb slug={slug} />}
+          back={slug.length > 0}
+        >
+          <CollectionView
+            entries={directoryContents}
+            title={slug[slug.length - 1]}
+          />
         </Panel>
       </Environment>
     )

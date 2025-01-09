@@ -1,8 +1,9 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Download, Maximize2, ChevronDown } from 'lucide-react';
+import { Camera, Download, Maximize2, ChevronDown, ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 type PanelButton = {
     icon: React.ReactNode;
@@ -26,13 +27,19 @@ export const PanelButton = ({ icon, tooltip, onClick }: Omit<PanelButton, 'posit
 export const Panel = ({
     children,
     title,
-    collapsed = false
+    breadcrumbs,
+    back,
+    collapsed = false,
+    className
 }: {
     children: React.ReactNode;
-    title: string;
+    title?: string;
+    breadcrumbs?: React.ReactNode;
+    back?: boolean;
     collapsed?: boolean;
-    distance?: number;
+    className?: string;
 }) => {
+    const router = useRouter();
     const [isTopBarHovered, setIsTopBarHovered] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(collapsed);
     const [isMaximized, setIsMaximized] = useState(false);
@@ -42,7 +49,7 @@ export const Panel = ({
 
     return (
         <motion.div
-            className="relative z-10 w-full mx-auto backdrop-blur-md bg-black/15 rounded-xl text-white font-afacad text-lg"
+            className={`relative z-10 w-full mx-auto backdrop-blur-md bg-black/15 rounded-xl text-white font-afacad text-lg ${className}`}
             animate={{
                 maxWidth: maxWidth,
                 height: height,
@@ -55,12 +62,18 @@ export const Panel = ({
                 onMouseEnter={() => setIsTopBarHovered(true)}
                 onMouseLeave={() => setIsTopBarHovered(false)}
             >
-                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-4 z-20">
+                <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 z-20">
                     <motion.div
                         initial={{ opacity: 0.5 }}
                         whileHover={{ opacity: 1 }}
+                        className="flex gap-2"
                     >
-                        <PanelButton
+                        {back ? (
+                            <PanelButton
+                                icon={<ArrowLeft className="w-5 h-5" />}
+                                onClick={() => router.back()}
+                            />
+                        ) : <PanelButton
                             icon={<ChevronDown
                                 className="w-5 h-5 transition-transform"
                                 style={{
@@ -71,10 +84,10 @@ export const Panel = ({
                                 if (isMaximized) setIsMaximized(false);
                                 setIsCollapsed(x => !x);
                             }}
-                        />
+                        />}
                     </motion.div>
                     <AnimatePresence>
-                        {isCollapsed && (
+                        {isCollapsed ? (
                             <motion.span
                                 initial={{ opacity: 0, y: 0 }}
                                 animate={{ opacity: 1, y: 0 }}
@@ -83,6 +96,19 @@ export const Panel = ({
                             >
                                 {title}
                             </motion.span>
+                        ) : (
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: isTopBarHovered ? 1 : 0 }}
+                                className="flex items-center h-16"
+                            >
+                                {breadcrumbs && (
+                                    <div className="text-white/60">
+                                        {breadcrumbs}
+                                    </div>
+                                )}
+                                <span className="text-xl font-semibold px-4">{title}</span>
+                            </motion.div>
                         )}
                     </AnimatePresence>
                 </div>
