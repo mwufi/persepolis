@@ -37,7 +37,7 @@ export const Panel = ({
 
     return (
         <motion.div
-            className="relative z-10 max-w-5xl mx-auto backdrop-blur-md bg-black/15 rounded-xl text-white font-afacad text-lg"
+            className="relative z-10 w-full mx-auto backdrop-blur-md bg-black/15 rounded-xl text-white font-afacad text-lg"
             animate={{
                 height: isCollapsed ? "4rem" : "90vh",
                 transition: { duration: 0.3 }
@@ -104,7 +104,7 @@ export const Panel = ({
                 </AnimatePresence>
             </div>
             <motion.div
-                className="h-full overflow-y-auto scrollbar-hide py-20 px-[5%] xl:px-[8%]"
+                className="h-full overflow-y-auto scrollbar-hide py-20 px-[5%] lg:px-[10%]"
                 animate={{
                     opacity: isCollapsed ? 0 : 1,
                     transition: { duration: 0.2 }

@@ -92,10 +92,12 @@ export default async function Page({ params }: BBProps) {
     if (!mdxData) return notFound()
 
     return (
-      <div className="mt-10">
-        <Breadcrumb slug={slug} />
+      <div className="flex flex-col gap-10">
         {mdxData.frontMatter && <PostMeta frontMatter={mdxData.frontMatter} />}
-        <Post />
+        <div className="max-w-[600px] mx-auto main-article">
+          <Post />
+        </div>
+        <Breadcrumb slug={slug} />
       </div>
     )
   }

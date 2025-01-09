@@ -1,9 +1,12 @@
 import Image from 'next/image'
 import { ImageErrorBoundary } from './ImageErrorBoundary'
+import { AspectRatio } from '@/components/ui/aspect-ratio'
+import { Subtitle, Title } from '@/components/Typography'
 
 interface PostMetaProps {
   frontMatter: {
     title?: string
+    subtitle?: string
     date?: string
     tags?: string[]
     headerImg?: string
@@ -11,52 +14,39 @@ interface PostMetaProps {
 }
 
 export function PostMeta({ frontMatter }: PostMetaProps) {
-  const { title, date, tags, headerImg } = frontMatter
-  
+  const { title, subtitle, date, tags, headerImg } = frontMatter
+
   // Normalize the image path
   const imagePath = headerImg ? (
     headerImg.startsWith('http') ? headerImg : `/${headerImg}`
   ) : null
 
   return (
-    <div className="mb-8">
-      {title && <h1 className="text-4xl font-bold mb-4">{title}</h1>}
+    <div className="">
+      {title &&
+        <Title>{title}</Title>
+      }
+      {subtitle && <Subtitle>{subtitle}</Subtitle>}
       <div className="flex flex-col gap-2">
         {imagePath && (
-          <ImageErrorBoundary imagePath={imagePath}>
-            <div className="relative w-full h-[300px] mb-4">
-              <Image
-                src={imagePath}
-                alt={title || 'Header image'}
-                fill
-                className="object-cover rounded-lg"
-              />
-            </div>
-          </ImageErrorBoundary>
+          <div className="w-full max-w-[800px] mx-auto">
+            <ImageErrorBoundary imagePath={imagePath}>
+              <AspectRatio ratio={16 / 9}>
+                <Image
+                  src={imagePath}
+                  alt={title || 'Header image'}
+                  fill
+                  className="object-cover rounded-lg shadow-lg"
+                  style={{
+                    borderRadius: '5px',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                    filter: 'brightness(1.1)' // Added slight white tint
+                  }}
+                />
+              </AspectRatio>
+            </ImageErrorBoundary>
+          </div>
         )}
-        <div className="flex items-center gap-4 text-gray-600">
-          {date && (
-            <time dateTime={date} className="text-sm">
-              {new Date(date).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </time>
-          )}
-          {tags && tags.length > 0 && (
-            <div className="flex gap-2">
-              {tags.map(tag => (
-                <span
-                  key={tag}
-                  className="px-2 py-1 text-xs bg-gray-100 rounded-full"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
       </div>
     </div>
   )

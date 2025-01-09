@@ -36,11 +36,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <style>
-          @import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&family=Sail&display=swap');
-        </style>
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${sail.variable} ${afacad.variable} antialiased min-h-screen`}
       >
