@@ -4,7 +4,7 @@ const Environment = ({ bgImage, children, className }: { bgImage: string, childr
     return (
         <div
             className={cn(
-                "relative h-screen bg-cover bg-center bg-fixed p-2 md:p-8 lg:p-16",
+                "relative h-screen bg-cover bg-center bg-fixed p-2 overflow-hidden",
                 className
             )}
             style={{ backgroundImage: bgImage }}

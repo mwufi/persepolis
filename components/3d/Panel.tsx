@@ -26,22 +26,29 @@ export const PanelButton = ({ icon, tooltip, onClick }: Omit<PanelButton, 'posit
 export const Panel = ({
     children,
     title,
-    collapsed = false,
+    collapsed = false
 }: {
     children: React.ReactNode;
     title: string;
     collapsed?: boolean;
+    distance?: number;
 }) => {
     const [isTopBarHovered, setIsTopBarHovered] = useState(false);
     const [isCollapsed, setIsCollapsed] = useState(collapsed);
+    const [isMaximized, setIsMaximized] = useState(false);
+
+    const maxWidth = isCollapsed ? "400px" : (isMaximized ? "1200px" : "800px");
+    const height = isCollapsed ? "4rem" : (isMaximized ? "100%" : "calc(100vh - 100px)");
 
     return (
         <motion.div
             className="relative z-10 w-full mx-auto backdrop-blur-md bg-black/15 rounded-xl text-white font-afacad text-lg"
             animate={{
-                height: isCollapsed ? "4rem" : "90vh",
+                maxWidth: maxWidth,
+                height: height,
                 transition: { duration: 0.3 }
             }}
+            initial={{ maxWidth: maxWidth, height: height }}
         >
             <div
                 className="absolute top-0 left-0 right-0 h-16 z-20 group"
@@ -60,7 +67,10 @@ export const Panel = ({
                                     transform: isCollapsed ? 'rotate(-90deg)' : 'rotate(0deg)'
                                 }}
                             />}
-                            onClick={() => setIsCollapsed(!isCollapsed)}
+                            onClick={() => {
+                                if (isMaximized) setIsMaximized(false);
+                                setIsCollapsed(x => !x);
+                            }}
                         />
                     </motion.div>
                     <AnimatePresence>
@@ -97,6 +107,7 @@ export const Panel = ({
                                 <PanelButton
                                     icon={<Maximize2 className="w-5 h-5" />}
                                     tooltip="Toggle Fullscreen"
+                                    onClick={() => setIsMaximized(!isMaximized)}
                                 />
                             </motion.div>
                         </div>

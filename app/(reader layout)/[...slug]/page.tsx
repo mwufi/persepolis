@@ -108,6 +108,11 @@ export default async function Page({ params }: BBProps) {
             <Breadcrumb slug={slug} />
           </div>
         </Panel>
+        <div className="mt-4"></div>
+        <Panel title="Home" collapsed={true}>
+          <h1>Navigation</h1>
+          <p>hi there</p>
+        </Panel>
       </Environment>
     )
   }
@@ -120,29 +125,31 @@ export default async function Page({ params }: BBProps) {
     directoryContents.sort((a, b) => b.modifiedAt.getTime() - a.modifiedAt.getTime())
 
     return (
-      <div className="mt-10">
-        <Breadcrumb slug={slug} />
-        <h1 className="text-3xl font-bold mb-6">{slug[slug.length - 1]}</h1>
-        <div className="grid gap-4">
-          {directoryContents.map((entry) => (
-            <Link
-              key={entry.path}
-              href={`/${entry.path}`}
-              className="p-4 rounded-lg hover:bg-white/20 transition-colors"
-            >
-              <div className="flex items-center gap-2">
-                {entry.isDirectory ? '📁' : '📄'} {entry.name}
-                <span className="text-sm text-gray-500 ml-auto">
-                  {entry.modifiedAt.toLocaleDateString()}
-                </span>
-              </div>
-            </Link>
-          ))}
-        </div>
-        <div className="mt-10 text-sm text-gray-500 italic">
-          Views like this are <span className="font-semibold">collection views</span>, which are automatically generated from a folder!
-        </div>
-      </div>
+      <Environment bgImage='url(/env-mountains.png)'>
+        <Panel title="Navigation">
+          <Breadcrumb slug={slug} />
+          <h1 className="text-3xl font-bold mb-6">{slug[slug.length - 1]}</h1>
+          <div className="grid gap-4">
+            {directoryContents.map((entry) => (
+              <Link
+                key={entry.path}
+                href={`/${entry.path}`}
+                className="p-4 rounded-lg hover:bg-white/20 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  {entry.isDirectory ? '📁' : '📄'} {entry.name}
+                  <span className="text-sm text-gray-500 ml-auto">
+                    {entry.modifiedAt.toLocaleDateString()}
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+          <div className="mt-10 text-sm text-gray-500 italic">
+            Views like this are <span className="font-semibold">collection views</span>, which are automatically generated from a folder!
+          </div>
+        </Panel>
+      </Environment>
     )
   }
 

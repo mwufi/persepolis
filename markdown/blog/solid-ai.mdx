@@ -4,14 +4,6 @@ subtitle: The future of AI
 headerImg: header-2.png
 env: 2.png
 ---
+More than two decades ago, when Brewer proposed the CAP theorem, it became evident to database practitioners and researchers that it is hard to design a system that is both consistent and available under network partitions [1], [2], [3]. Unsurprisingly, each application designer still wants to offer its client consistent results and an always-available system despite any failures [4], [5].
 
-# Solid AI
-
-What is the future of work going to look like? 
-
-Imagine you're a spreadsheet entry clerk. YOur job is to write spreadsheets. 
-
-But one day, there's a new program coming around that can write spreadsheets better than you can. You find it one day, making its copies, hundreds of times faster than you can. And before you know it, you're out of a job. 
-
-
-
+Each application developer desires to provide its users with consistent results and an always-available system despite failures. Boldly, the CALM theorem disagrees. It states that it is hard to design a system that is both consistent and available under network partitions; select at most two out of these three properties. One possible solution is to design coordination-free monotonic applications. However, a majority of real-world applications require coordination. We resolve this dilemma by conjecturing that partial progress is possible under network partitions. This partial progress ensures the system appears responsive to a subset of clients and achieves non-zero throughput during failures. To this extent, we present the design of our CASSANDRA consensus protocol that allows partitioned replicas to order client requests.
