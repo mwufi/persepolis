@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { getMdxContent } from '@/app/(reader layout)/[...slug]/utils'
+import { getMdxContent } from '@/lib/mdx'
 import { getSiteConfig } from '@/lib/config'
 
 export async function GET(request: NextRequest) {
