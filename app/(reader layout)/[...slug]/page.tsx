@@ -14,6 +14,8 @@ import Link from 'next/link';
 import { PostMeta } from './PostMeta';
 import { Metadata } from 'next'
 import { getSiteConfig, getFullUrl } from '../../../lib/config'
+import { Panel } from '@/components/3d/Panel';
+import Environment from '@/components/3d/Environment';
 
 interface BBProps {
   params: Promise<{ slug: string[] }>
@@ -78,6 +80,10 @@ export async function generateMetadata({ params }: { params: { slug: string[] } 
   }
 }
 
+function getEnv(env: string) {
+  return env ? `url(/${env})` : 'url(/env-mountains.png)'
+}
+
 export default async function Page({ params }: BBProps) {
   const { slug } = await params
   const fullPath = getFullPath(slug)
@@ -92,13 +98,17 @@ export default async function Page({ params }: BBProps) {
     if (!mdxData) return notFound()
 
     return (
-      <div className="flex flex-col gap-10">
-        {mdxData.frontMatter && <PostMeta frontMatter={mdxData.frontMatter} />}
-        <div className="max-w-[600px] mx-auto main-article">
-          <Post />
-        </div>
-        <Breadcrumb slug={slug} />
-      </div>
+      <Environment bgImage={getEnv(mdxData.frontMatter.env)}>
+        <Panel title={mdxData.frontMatter.title}>
+          <div className="flex flex-col gap-10">
+            {mdxData.frontMatter && <PostMeta frontMatter={mdxData.frontMatter} />}
+            <div className="max-w-[600px] mx-auto main-article">
+              <Post />
+            </div>
+            <Breadcrumb slug={slug} />
+          </div>
+        </Panel>
+      </Environment>
     )
   }
 
